@@ -12,20 +12,157 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="app-container" id="app-container" style="display: none;">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none" class="mee-logo">
-          <text x="12" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#FFFFFF">m</text>
-          <text x="72" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
-          <text x="112" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+  <!-- ===== Public Homepage ===== -->
+  <div id="public-container">
+    <header class="public-header">
+      <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+        <a href="#" class="public-logo">
+          <!-- New SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" fill="none" class="mee-logo">
+            <text x="12" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">m</text>
+            <text x="72" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+            <text x="112" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+            <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+            <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+            <text x="145" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">Mail</text>
+          </svg>
+        </a>
+        <nav class="public-nav">
+          <a href="#" class="nav-link" id="btn-login-nav">Login</a>
+          <a href="#" class="btn btn-small" id="btn-register-nav">Be a meeian</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="public-main">
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-svg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" fill="none" class="hero-logo">
+                <text x="12" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">m</text>
+                <text x="72" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+                <text x="112" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+                <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+                <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+                <text x="145" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">Mail</text>
+              </svg>
+            </div>
+            <p class="hero-text">The official communication hub of the mee ecosystem.</p>
+            <div class="hero-buttons">
+              <a href="#" class="btn btn-large" id="btn-login-hero">Login</a>
+              <a href="#" class="btn btn-outline btn-large" id="btn-register-hero">Be a meeian</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section features">
+        <div class="container">
+          <h2>How it works</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <i class="ri-user-add-line"></i>
+              <h3>Register</h3>
+              <p>Create your unique @mee.com address — no external email needed.</p>
+            </div>
+            <div class="feature-card">
+              <i class="ri-mail-check-line"></i>
+              <h3>Verify</h3>
+              <p>Check your inbox for a verification message and activate your account.</p>
+            </div>
+            <div class="feature-card">
+              <i class="ri-send-plane-line"></i>
+              <h3>Connect</h3>
+              <p>Send messages to any meeian. Everything stays inside the mee universe.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section accounts">
+        <div class="container">
+          <h2>Accounts</h2>
+          <p class="section-text">Already have an idea? Create your meeMail address now.</p>
+          <a href="#" class="btn btn-large" id="btn-create-account">Create new meeMail</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__text">
+        <span>2026-Present</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none" class="footer-logo">
+          <text x="12" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#FFFFFF">m</text>
+          <text x="72" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+          <text x="112" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
           <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
           <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
         </svg>
-        <span class="mail-badge">Mail</span>
+        <span>All Rights Reserved.</span>
       </div>
-      <nav class="sidebar-nav" id="sidebar-nav">
+    </footer>
+  </div>
+
+  <!-- ===== Login/Register Modals ===== -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-box">
+      <span class="modal-close" id="modal-close">&times;</span>
+      <div class="modal-tabs">
+        <button id="modal-tab-login" class="tab active">Login</button>
+        <button id="modal-tab-register" class="tab">Register</button>
+      </div>
+
+      <!-- Login form -->
+      <form id="modal-login-form" class="auth-form active">
+        <div class="form-group">
+          <label>mee Address</label>
+          <input type="text" id="modal-login-address" placeholder="username" required>
+          <div class="hint">@mee.com</div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="modal-login-password" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <p id="modal-login-message" class="form-message"></p>
+      </form>
+
+      <!-- Register form -->
+      <form id="modal-register-form" class="auth-form">
+        <div class="form-group">
+          <label>Choose mee Address</label>
+          <input type="text" id="modal-reg-username" placeholder="username" required>
+          <div class="hint">Only lowercase letters, digits, . and -</div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="modal-reg-password" required>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="modal-reg-confirm" required>
+        </div>
+        <button type="submit" class="btn">Create mee Address</button>
+        <p id="modal-reg-message" class="form-message"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== App Container (logged in) ===== -->
+  <div id="app-container" class="app-container" style="display: none;">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" fill="none" class="mee-logo">
+          <text x="12" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#FFFFFF">m</text>
+          <text x="72" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+          <text x="112" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+          <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+          <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+          <text x="145" y="64" style="font-family:Inter, 'SF Pro Display', Poppins, Arial, sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#FFFFFF">Mail</text>
+        </svg>
+      </div>
+      <nav class="sidebar-nav">
         <ul>
           <li><a href="#" class="sidebar-link active" data-section="about"><i class="ri-information-line"></i> About</a></li>
           <li><a href="#" class="sidebar-link" data-section="inbox"><i class="ri-mail-line"></i> Inbox <span id="unread-count" class="badge" style="display:none;">0</span></a></li>
@@ -43,17 +180,12 @@
         </ul>
       </nav>
     </aside>
-
-    <!-- Main Content -->
     <main class="main-content">
-      <!-- About Section -->
       <section id="section-about" class="content-section active">
         <h1 class="section-heading">About meeMail</h1>
         <p class="section-text">meeMail is the official communication hub within the mee ecosystem. Your @mee.com address works as your digital passport — send messages to other meeians, manage contacts, and control your identity.</p>
         <p class="section-text">No external email needed. Everything stays inside mee.</p>
       </section>
-
-      <!-- Inbox Section -->
       <section id="section-inbox" class="content-section">
         <h1 class="section-heading">Inbox</h1>
         <div id="verification-bar" class="verification-banner" style="display: none;">
@@ -61,35 +193,20 @@
         </div>
         <div id="inbox-list" class="message-list"></div>
       </section>
-
-      <!-- Sent Section -->
       <section id="section-sent" class="content-section">
         <h1 class="section-heading">Sent</h1>
         <div id="sent-list" class="message-list"></div>
       </section>
-
-      <!-- Compose Section -->
       <section id="section-compose" class="content-section">
         <h1 class="section-heading">Compose</h1>
         <form id="compose-form">
-          <div class="form-group">
-            <label>To</label>
-            <input type="text" id="compose-to" placeholder="username@mee.com" required>
-          </div>
-          <div class="form-group">
-            <label>Subject</label>
-            <input type="text" id="compose-subject" required>
-          </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea id="compose-body" rows="6" required></textarea>
-          </div>
+          <div class="form-group"><label>To</label><input type="text" id="compose-to" placeholder="username@mee.com" required></div>
+          <div class="form-group"><label>Subject</label><input type="text" id="compose-subject" required></div>
+          <div class="form-group"><label>Message</label><textarea id="compose-body" rows="6" required></textarea></div>
           <button type="submit" class="btn">Send</button>
         </form>
         <p id="compose-message"></p>
       </section>
-
-      <!-- Contacts Section -->
       <section id="section-contacts" class="content-section">
         <h1 class="section-heading">Contacts</h1>
         <p class="section-text">Your connections will appear here.</p>
@@ -98,73 +215,13 @@
     </main>
   </div>
 
-  <!-- Login/Register container (shown when logged out) -->
-  <div class="auth-container" id="auth-container">
-    <div class="auth-box">
-      <div class="auth-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none" class="mee-logo">
-          <text x="12" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">m</text>
-          <text x="72" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
-          <text x="112" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
-          <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-          <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-        </svg>
-      </div>
-      <div class="auth-tabs">
-        <button id="tab-login" class="tab active">Login</button>
-        <button id="tab-register" class="tab">Register</button>
-      </div>
-
-      <!-- Login Form -->
-      <form id="login-form" class="auth-form active">
-        <div class="form-group">
-          <label>mee Address</label>
-          <input type="text" id="login-address" placeholder="username" required>
-          <div class="hint">@mee.com</div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="login-password" required>
-        </div>
-        <button type="submit" class="btn">Login</button>
-        <p id="login-message"></p>
-      </form>
-
-      <!-- Register Form -->
-      <form id="register-form" class="auth-form">
-        <div class="form-group">
-          <label>Choose mee Address</label>
-          <input type="text" id="reg-username" placeholder="username" required>
-          <div class="hint">@mee.com</div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="reg-password" required>
-        </div>
-        <div class="form-group">
-          <label>Confirm Password</label>
-          <input type="password" id="reg-confirm" required>
-        </div>
-        <button type="submit" class="btn">Create mee Address</button>
-        <p id="reg-message"></p>
-      </form>
+  <!-- Error Popup Modal -->
+  <div id="error-popup" class="modal-overlay" style="display: none;">
+    <div class="modal-box" style="max-width: 400px; text-align: center;">
+      <p id="error-message"></p>
+      <button class="btn" id="error-close">OK</button>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer" id="footer">
-    <div class="container footer__text">
-      <span>2026-Present</span>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none" class="footer-logo">
-        <text x="12" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#FFFFFF">m</text>
-        <text x="72" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
-        <text x="112" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
-        <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-        <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-      </svg>
-      <span>All Rights Reserved.</span>
-    </div>
-  </footer>
 
   <script src="script.js"></script>
 </body>
