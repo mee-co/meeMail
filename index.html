@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>meeMail — Create your mee identity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="registration-container">
+    <div class="logo">
+      <!-- mee SVG logo -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none">
+        <text x="12" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">m</text>
+        <text x="72" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+        <text x="112" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+        <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+        <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+      </svg>
+    </div>
+
+    <div class="steps">
+      <div class="step active" id="step-dot-1" data-label="Verify">1</div>
+      <div class="step" id="step-dot-2" data-label="Create">2</div>
+    </div>
+
+    <div class="form-panels">
+      <!-- Step 1 Panel -->
+      <div class="panel active" id="step1-panel">
+        <form id="step1-form">
+          <div class="form-group">
+            <label for="reg-name">Name</label>
+            <input type="text" id="reg-name" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" required>
+            <div class="hint">Use a real email (Gmail, Yahoo, etc.)</div>
+          </div>
+          <button type="submit" class="btn" id="send-verification">Send Verification</button>
+        </form>
+        <p id="step1-message" class="message" style="color:green;"></p>
+      </div>
+
+      <!-- Step 2 Panel -->
+      <div class="panel" id="step2-panel">
+        <form id="step2-form">
+          <div class="form-group">
+            <label for="mee-address">mee Address</label>
+            <input type="text" id="mee-address" placeholder="username" required>
+            <div class="hint">@mee.com</div>
+          </div>
+          <div class="form-group">
+            <label for="mee-password">Password</label>
+            <input type="password" id="mee-password" required>
+          </div>
+          <div class="form-group">
+            <label for="mee-confirm">Confirm Password</label>
+            <input type="password" id="mee-confirm" required>
+          </div>
+          <button type="submit" class="btn" id="register-btn">Create mee Address</button>
+        </form>
+        <p id="step2-message" class="message" style="color:green;"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
