@@ -40,13 +40,26 @@ body {
   justify-content: space-between;
   padding: 1.2rem 0;
 }
-.logo-svg { height: 48px; width: auto; }
-.main-nav { display: flex; align-items: center; gap: 2rem; }
-.main-nav .nav-link {
-  font-weight: 500;
-  color: var(--black);
-  transition: color 0.2s;
+/* Logo container and SVG size */
+
+/* Logo */
+
+
+.logo-svg {
+  width: 260px;
+  height: auto;
+  display: block;
+  transition: width 0.3s;
 }
+
+@media (max-width: 768px) {
+  .logo-svg {
+    width: 180px;
+  }
+}
+
+
+
 .main-nav .nav-link:hover { color: var(--blue); }
 
 /* Buttons */
@@ -74,6 +87,7 @@ body {
 .btn-outline:hover { background: var(--blue); color: white; }
 .btn-large { padding: 0.9rem 2.2rem; font-size: 1rem; }
 .btn-full { width: 100%; }
+.btn-small { padding: 0.5rem 1.5rem; font-size: 0.9rem; }
 .mobile-toggle { display: none; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--black); }
 
 /* Hero Section */
@@ -151,8 +165,8 @@ body {
   color: var(--blue);
   margin-bottom: 1rem;
 }
-.feature-heading { margin-bottom: 0.75rem; font-size: 1.25rem; }
-.feature-text { color: var(--gray-600); }
+.feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+.feature-card p { color: var(--gray-600); }
 
 /* Accounts */
 .accounts-grid {
@@ -266,13 +280,14 @@ body {
   justify-content: center;
   min-height: 80vh;
   text-align: center;
+  gap: 1rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .hero-grid { grid-template-columns: 1fr; text-align: center; }
   .hero-title { font-size: 2.2rem; }
-  .hero-visual { display: none; } /* hide circle on small screens */
+  .hero-visual { display: none; }
   .main-nav {
     display: none;
     position: absolute;
@@ -284,8 +299,10 @@ body {
     padding: 2rem;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     gap: 1.5rem;
+    align-items: flex-start;
   }
   .main-nav.show { display: flex; }
   .mobile-toggle { display: block; }
   .accounts-grid { grid-template-columns: 1fr; }
+  .logo-svg { width: 180px; } /* slightly smaller on mobile */
 }

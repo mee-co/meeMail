@@ -17,17 +17,26 @@
     <!-- Header -->
     <header class="header">
       <div class="container nav-container">
-        <a href="#" class="logo" aria-label="meeMail home">
-          <!-- meeMail combined logo -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" fill="none" class="logo-svg">
-            <text x="12" y="64" class="brand" fill="#0F172A">m</text>
-            <text x="72" y="64" class="brand" fill="#2563EB">e</text>
-            <text x="112" y="64" class="brand" fill="#2563EB">e</text>
-            <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-            <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-            <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
-          </svg>
-        </a>
+       <a href="#" class="logo" aria-label="meeMail home">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg">
+    <defs>
+      <style>
+        .brand{
+          font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif;
+          font-size: 64px;
+          font-weight: 800;
+          letter-spacing: -3px;
+        }
+      </style>
+    </defs>
+    <text x="12" y="64" class="brand" fill="#0F172A">m</text>
+    <text x="72" y="64" class="brand" fill="#2563EB">e</text>
+    <text x="112" y="64" class="brand" fill="#2563EB">e</text>
+    <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+    <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+    <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
+  </svg>
+</a>
         <nav class="main-nav" id="main-nav">
           <a href="#about" class="nav-link">About</a>
           <a href="#features" class="nav-link">Features</a>
@@ -55,7 +64,6 @@
           </div>
         </div>
         <div class="hero-visual">
-          <!-- Abstract illustration or large logo -->
           <div class="visual-circle">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" fill="none" class="big-logo">
               <text x="12" y="64" class="brand" fill="#0F172A">m</text>
@@ -86,32 +94,24 @@
         <h2 class="section-title">Why meeMail?</h2>
         <div class="features-grid">
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="ri-shield-check-line"></i>
-            </div>
-            <h3 class="feature-heading">End-to-End Encrypted</h3>
-            <p class="feature-text">Every message is secured. Only you and the recipient can read it.</p>
+            <div class="feature-icon"><i class="ri-shield-check-line"></i></div>
+            <h3>End-to-End Encrypted</h3>
+            <p>Every message is secured. Only you and the recipient can read it.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="ri-fingerprint-line"></i>
-            </div>
-            <h3 class="feature-heading">One Identity</h3>
-            <p class="feature-text">Your @mee.com address is your passport to all mee products.</p>
+            <div class="feature-icon"><i class="ri-fingerprint-line"></i></div>
+            <h3>One Identity</h3>
+            <p>Your @mee.com address is your passport to all mee products.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="ri-global-line"></i>
-            </div>
-            <h3 class="feature-heading">Zero External Dependencies</h3>
-            <p class="feature-text">No Gmail, Yahoo, or any third-party. meeMail runs entirely on its own network.</p>
+            <div class="feature-icon"><i class="ri-global-line"></i></div>
+            <h3>Zero External Dependencies</h3>
+            <p>No Gmail, Yahoo, or any third-party. meeMail runs entirely on its own network.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="ri-mail-send-line"></i>
-            </div>
-            <h3 class="feature-heading">Smart Inbox</h3>
-            <p class="feature-text">Clean, focused interface for your conversations. No ads, no distractions.</p>
+            <div class="feature-icon"><i class="ri-mail-send-line"></i></div>
+            <h3>Smart Inbox</h3>
+            <p>Clean, focused interface for your conversations. No ads, no distractions.</p>
           </div>
         </div>
       </div>
@@ -123,17 +123,13 @@
         <h2 class="section-title">Your meeMail Account</h2>
         <div class="accounts-grid">
           <div class="account-card">
-            <div class="account-icon">
-              <i class="ri-user-add-line"></i>
-            </div>
+            <div class="account-icon"><i class="ri-user-add-line"></i></div>
             <h3>Create New Address</h3>
             <p>Choose your unique @mee.com username. Only lowercase letters, digits, dots, and hyphens allowed.</p>
             <button class="btn-outline" id="create-account-btn">Create New Address</button>
           </div>
           <div class="account-card">
-            <div class="account-icon">
-              <i class="ri-login-circle-line"></i>
-            </div>
+            <div class="account-icon"><i class="ri-login-circle-line"></i></div>
             <h3>Already have one?</h3>
             <p>Sign in to your inbox, manage settings, or verify your address.</p>
             <button class="btn-outline" id="sign-in-accounts-btn">Sign In</button>
@@ -152,7 +148,6 @@
   </div>
 
   <!-- ==================== APP DASHBOARD (hidden until login) ==================== -->
-  <!-- Placeholder for future inbox, sent, compose, etc. -->
   <div class="app-container" id="app-container" style="display: none;">
     <div class="app-placeholder">
       <h2>Welcome back, meeian!</h2>
