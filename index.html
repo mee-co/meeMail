@@ -9,9 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="app-container">
+  <div class="app-container" id="app-container" style="display: none;">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-logo">
@@ -24,18 +25,19 @@
         </svg>
         <span class="mail-badge">Mail</span>
       </div>
-
-      <nav class="sidebar-nav">
+      <nav class="sidebar-nav" id="sidebar-nav">
         <ul>
-          <li><a href="#section-about" class="sidebar-link active" data-section="about"><i class="ri-information-line"></i> About</a></li>
-          <li><a href="#section-inbox" class="sidebar-link" data-section="inbox"><i class="ri-mail-line"></i> Inbox</a></li>
-          <li><a href="#section-register" class="sidebar-link" data-section="register"><i class="ri-user-add-line"></i> Register</a></li>
-          <li><a href="#section-contacts" class="sidebar-link" data-section="contacts"><i class="ri-contacts-book-line"></i> Contacts</a></li>
+          <li><a href="#" class="sidebar-link active" data-section="about"><i class="ri-information-line"></i> About</a></li>
+          <li><a href="#" class="sidebar-link" data-section="inbox"><i class="ri-mail-line"></i> Inbox <span id="unread-count" class="badge" style="display:none;">0</span></a></li>
+          <li><a href="#" class="sidebar-link" data-section="sent"><i class="ri-send-plane-line"></i> Sent</a></li>
+          <li><a href="#" class="sidebar-link" data-section="compose"><i class="ri-pencil-line"></i> Compose</a></li>
+          <li><a href="#" class="sidebar-link" data-section="contacts"><i class="ri-contacts-book-line"></i> Contacts</a></li>
           <li class="sidebar-dropdown">
             <a href="#" class="sidebar-link dropdown-toggle"><i class="ri-settings-3-line"></i> Settings <i class="ri-arrow-down-s-line arrow"></i></a>
             <ul class="dropdown-menu">
               <li><a href="#" data-action="change-address">Change meeMail Address</a></li>
               <li><a href="#" data-action="delete-address">Delete meeMail Address</a></li>
+              <li><a href="#" id="logout-btn"><i class="ri-logout-box-r-line"></i> Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -47,82 +49,110 @@
       <!-- About Section -->
       <section id="section-about" class="content-section active">
         <h1 class="section-heading">About meeMail</h1>
-        <p class="section-text">meeMail is your official communication hub within the mee ecosystem. Once you create your @mee.com address, you can use it across all mee services, manage your inbox, contacts, and control your identity. It's more than an email — it's your digital passport.</p>
-        <p class="section-text">Founded by Abdullah Al Mustafa, meeMail stands for privacy, simplicity, and seamless connectivity.</p>
+        <p class="section-text">meeMail is the official communication hub within the mee ecosystem. Your @mee.com address works as your digital passport — send messages to other meeians, manage contacts, and control your identity.</p>
+        <p class="section-text">No external email needed. Everything stays inside mee.</p>
       </section>
 
-      <!-- Inbox Section (Dummy) -->
+      <!-- Inbox Section -->
       <section id="section-inbox" class="content-section">
         <h1 class="section-heading">Inbox</h1>
-        <p class="section-text">Your messages will appear here. This feature will be fully integrated soon.</p>
-        <div class="dummy-list">
-          <div class="dummy-item"><span class="sender">System</span> — Welcome to meeMail!</div>
-          <div class="dummy-item"><span class="sender">mee</span> — Your mee address is ready.</div>
+        <div id="verification-bar" class="verification-banner" style="display: none;">
+          <p>Your account is not verified. <button id="verify-now-btn" class="btn-small">Verify Now</button></p>
         </div>
+        <div id="inbox-list" class="message-list"></div>
       </section>
 
-      <!-- Register Section (2-step form) -->
-      <section id="section-register" class="content-section">
-        <h1 class="section-heading">Create your mee Address</h1>
-        <div class="steps">
-          <div class="step active" id="step-dot-1" data-label="Verify">1</div>
-          <div class="step" id="step-dot-2" data-label="Create">2</div>
-        </div>
-        <div class="register-panels">
-          <!-- Step 1 -->
-          <div class="register-panel active" id="step1-panel">
-            <form id="step1-form">
-              <div class="form-group">
-                <label for="reg-name">Name</label>
-                <input type="text" id="reg-name" required>
-              </div>
-              <div class="form-group">
-                <label for="reg-email">Email</label>
-                <input type="email" id="reg-email" required>
-                <div class="hint">Use a real email (Gmail, Yahoo, etc.)</div>
-              </div>
-              <button type="submit" class="btn" id="send-verification">Send Verification</button>
-            </form>
-            <p id="step1-message" class="message" style="color:green;"></p>
-          </div>
-          <!-- Step 2 -->
-          <div class="register-panel" id="step2-panel">
-            <form id="step2-form">
-              <div class="form-group">
-                <label for="mee-address">mee Address</label>
-                <input type="text" id="mee-address" placeholder="username" required>
-                <div class="hint">@mee.com</div>
-              </div>
-              <div class="form-group">
-                <label for="mee-password">Password</label>
-                <input type="password" id="mee-password" required>
-              </div>
-              <div class="form-group">
-                <label for="mee-confirm">Confirm Password</label>
-                <input type="password" id="mee-confirm" required>
-              </div>
-              <button type="submit" class="btn" id="register-btn">Create mee Address</button>
-            </form>
-            <p id="step2-message" class="message" style="color:green;"></p>
-          </div>
-        </div>
+      <!-- Sent Section -->
+      <section id="section-sent" class="content-section">
+        <h1 class="section-heading">Sent</h1>
+        <div id="sent-list" class="message-list"></div>
       </section>
 
-      <!-- Contacts Section (Dummy) -->
+      <!-- Compose Section -->
+      <section id="section-compose" class="content-section">
+        <h1 class="section-heading">Compose</h1>
+        <form id="compose-form">
+          <div class="form-group">
+            <label>To</label>
+            <input type="text" id="compose-to" placeholder="username@mee.com" required>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <input type="text" id="compose-subject" required>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="compose-body" rows="6" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send</button>
+        </form>
+        <p id="compose-message"></p>
+      </section>
+
+      <!-- Contacts Section -->
       <section id="section-contacts" class="content-section">
         <h1 class="section-heading">Contacts</h1>
-        <p class="section-text">Manage your connections. Coming soon.</p>
-        <div class="dummy-list">
-          <div class="dummy-item">Abdullah Al Mustafa — founder@mee.com</div>
-        </div>
+        <p class="section-text">Your connections will appear here.</p>
+        <div id="contacts-list" class="dummy-list"></div>
       </section>
-
-      <!-- Settings Modals will be toggled by JS -->
     </main>
   </div>
 
-  <!-- Footer (sticky) -->
-  <footer class="footer">
+  <!-- Login/Register container (shown when logged out) -->
+  <div class="auth-container" id="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none" class="mee-logo">
+          <text x="12" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#0F172A">m</text>
+          <text x="72" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+          <text x="112" y="64" style="font-family:var(--logo-font);font-size:64px;font-weight:800;letter-spacing:-3px;" fill="#2563EB">e</text>
+          <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+          <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+        </svg>
+      </div>
+      <div class="auth-tabs">
+        <button id="tab-login" class="tab active">Login</button>
+        <button id="tab-register" class="tab">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form active">
+        <div class="form-group">
+          <label>mee Address</label>
+          <input type="text" id="login-address" placeholder="username" required>
+          <div class="hint">@mee.com</div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <p id="login-message"></p>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form" class="auth-form">
+        <div class="form-group">
+          <label>Choose mee Address</label>
+          <input type="text" id="reg-username" placeholder="username" required>
+          <div class="hint">@mee.com</div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="reg-password" required>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="reg-confirm" required>
+        </div>
+        <button type="submit" class="btn">Create mee Address</button>
+        <p id="reg-message"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
     <div class="container footer__text">
       <span>2026-Present</span>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" fill="none" class="footer-logo">
@@ -135,35 +165,6 @@
       <span>All Rights Reserved.</span>
     </div>
   </footer>
-
-  <!-- Change Address Modal -->
-  <div id="modal-change" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Change meeMail Address</h2>
-      <form id="change-address-form">
-        <input type="text" placeholder="Current mee address" required>
-        <input type="text" placeholder="New mee address" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit" class="btn">Change Address</button>
-      </form>
-      <p class="modal-message"></p>
-    </div>
-  </div>
-
-  <!-- Delete Address Modal -->
-  <div id="modal-delete" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Delete meeMail Address</h2>
-      <form id="delete-address-form">
-        <input type="text" placeholder="Your mee address" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit" class="btn btn-danger">Delete Address</button>
-      </form>
-      <p class="modal-message"></p>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>
