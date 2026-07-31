@@ -17,26 +17,27 @@
     <!-- Header -->
     <header class="header">
       <div class="container nav-container">
-       <a href="#" class="logo" aria-label="meeMail home">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg">
-    <defs>
-      <style>
-        .brand{
-          font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif;
-          font-size: 64px;
-          font-weight: 800;
-          letter-spacing: -3px;
-        }
-      </style>
-    </defs>
-    <text x="12" y="64" class="brand" fill="#0F172A">m</text>
-    <text x="72" y="64" class="brand" fill="#2563EB">e</text>
-    <text x="112" y="64" class="brand" fill="#2563EB">e</text>
-    <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-    <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-    <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
-  </svg>
-</a>
+        <a href="#" class="logo" aria-label="meeMail home">
+          <!-- SVG logo with embedded font styles -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg">
+            <defs>
+              <style>
+                .brand{
+                  font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif;
+                  font-size: 64px;
+                  font-weight: 800;
+                  letter-spacing: -3px;
+                }
+              </style>
+            </defs>
+            <text x="12" y="64" class="brand" fill="#0F172A">m</text>
+            <text x="72" y="64" class="brand" fill="#2563EB">e</text>
+            <text x="112" y="64" class="brand" fill="#2563EB">e</text>
+            <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+            <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+            <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
+          </svg>
+        </a>
         <nav class="main-nav" id="main-nav">
           <a href="#about" class="nav-link">About</a>
           <a href="#features" class="nav-link">Features</a>
@@ -65,7 +66,17 @@
         </div>
         <div class="hero-visual">
           <div class="visual-circle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 90" fill="none" class="big-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="big-logo">
+              <defs>
+                <style>
+                  .brand{
+                    font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif;
+                    font-size: 64px;
+                    font-weight: 800;
+                    letter-spacing: -3px;
+                  }
+                </style>
+              </defs>
               <text x="12" y="64" class="brand" fill="#0F172A">m</text>
               <text x="72" y="64" class="brand" fill="#2563EB">e</text>
               <text x="112" y="64" class="brand" fill="#2563EB">e</text>
@@ -198,7 +209,7 @@
           <label for="reg-confirm">Confirm Password</label>
           <input type="password" id="reg-confirm" placeholder="Re-enter password" required>
         </div>
-        <button type="submit" class="btn-primary btn-full" id="register-submit-btn" disabled>Create Address</button>
+        <button type="submit" class="btn-primary btn-full" id="register-submit-btn">Create Address</button>
         <p id="register-message" class="modal-message"></p>
       </form>
     </div>

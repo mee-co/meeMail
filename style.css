@@ -40,26 +40,18 @@ body {
   justify-content: space-between;
   padding: 1.2rem 0;
 }
-/* Logo container and SVG size */
-
-/* Logo */
-
-
 .logo-svg {
-  width: 260px;
+  width: 220px;
   height: auto;
   display: block;
-  transition: width 0.3s;
 }
-
-@media (max-width: 768px) {
-  .logo-svg {
-    width: 180px;
-  }
+.main-nav { display: flex; align-items: center; gap: 2rem; }
+.main-nav .nav-link {
+  font-weight: 500;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 0.2s;
 }
-
-
-
 .main-nav .nav-link:hover { color: var(--blue); }
 
 /* Buttons */
@@ -86,7 +78,7 @@ body {
 }
 .btn-outline:hover { background: var(--blue); color: white; }
 .btn-large { padding: 0.9rem 2.2rem; font-size: 1rem; }
-.btn-full { width: 100%; }
+.btn-full { width: 100%; margin-top: 0.5rem; }
 .btn-small { padding: 0.5rem 1.5rem; font-size: 0.9rem; }
 .mobile-toggle { display: none; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--black); }
 
@@ -160,11 +152,7 @@ body {
   transition: background var(--transition);
 }
 .feature-card:hover { background: var(--gray-100); }
-.feature-icon {
-  font-size: 2.5rem;
-  color: var(--blue);
-  margin-bottom: 1rem;
-}
+.feature-icon { font-size: 2.5rem; color: var(--blue); margin-bottom: 1rem; }
 .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
 .feature-card p { color: var(--gray-600); }
 
@@ -183,11 +171,7 @@ body {
   transition: background var(--transition);
 }
 .account-card:hover { background: var(--gray-100); }
-.account-icon {
-  font-size: 2.5rem;
-  color: var(--blue);
-  margin-bottom: 1rem;
-}
+.account-icon { font-size: 2.5rem; color: var(--blue); margin-bottom: 1rem; }
 .account-card h3 { margin-bottom: 1rem; }
 .account-card p { color: var(--gray-600); margin-bottom: 1.5rem; }
 
@@ -252,7 +236,6 @@ body {
 .form-group input:focus { border-color: var(--blue); }
 .form-hint { font-size: 0.8rem; color: var(--gray-600); margin-top: 0.2rem; }
 .check-status { font-size: 0.9rem; margin-top: 0.3rem; }
-.btn-full { width: 100%; margin-top: 0.5rem; }
 .modal-message { margin-top: 1rem; font-size: 0.95rem; text-align: center; }
 
 /* Popup */
@@ -304,5 +287,5 @@ body {
   .main-nav.show { display: flex; }
   .mobile-toggle { display: block; }
   .accounts-grid { grid-template-columns: 1fr; }
-  .logo-svg { width: 180px; } /* slightly smaller on mobile */
+  .logo-svg { width: 180px; }
 }
