@@ -25,6 +25,7 @@
   </script>
 </head>
 <body>
+  <!-- Header -->
   <header class="top-bar">
     <div class="top-left">
       <button id="menu-toggle" class="icon-btn" style="display:none;"><i class="ri-menu-line"></i></button>
@@ -48,9 +49,7 @@
           <span class="avatar-initial" id="avatar-initial"></span>
         </button>
         <div id="user-dropdown" class="dropdown-menu">
-          <div class="dropdown-header">
-            <span id="dropdown-address"></span>
-          </div>
+          <div class="dropdown-header"><span id="dropdown-address"></span></div>
           <button id="manage-account-btn" class="dropdown-item"><i class="ri-settings-3-line"></i> Manage your meeAccount</button>
           <div class="other-accounts-section" id="other-accounts-section">
             <div class="dropdown-label">Other accounts</div>
@@ -99,7 +98,6 @@
     <!-- App Container -->
     <div id="app-container" style="display: none;">
       <div class="app-body">
-      <button id="fab-compose-btn" class="fab-btn" title="Compose"><i class="ri-pencil-line"></i></button>
         <aside id="sidebar" class="sidebar">
           <nav class="sidebar-nav">
             <a href="#" class="sidebar-link active" data-section="inbox"><i class="ri-inbox-line"></i> Inbox <span class="count" id="inbox-count" style="display:none;">0</span></a>
@@ -136,7 +134,6 @@
                   <label>mee Address</label>
                   <input type="text" id="manage-address" disabled>
                 </div>
-                <!-- Future: change password, etc. -->
                 <button id="save-avatar-btn" class="btn-primary">Save Changes</button>
                 <p id="manage-message" class="modal-message"></p>
               </div>
@@ -147,34 +144,70 @@
             <div id="message-detail"></div>
           </section>
         </main>
+        <button id="fab-compose-btn" class="fab-btn" title="Compose"><i class="ri-pencil-line"></i></button>
       </div>
     </div>
   </div>
 
-  <!-- Modals -->
+  <!-- Auth Modal with Sliding Panels -->
   <div id="auth-modal" class="modal">
     <div class="modal-content auth-modal-content">
       <span class="modal-close">&times;</span>
-      <div class="auth-tabs">
-        <button id="tab-login" class="tab active">Login</button>
-        <button id="tab-register" class="tab">Register</button>
+      <div class="container" id="container">
+        <!-- Sign Up -->
+        <div class="form-container sign-up">
+          <form id="register-form">
+            <h1>Be a meeian</h1>
+            <input type="text" id="reg-name" placeholder="What's your name?" autocomplete="name">
+            <input type="text" id="reg-username" placeholder="Choose username" autocomplete="username">
+            <div id="username-status" class="check-status"></div>
+            <div class="password-field">
+              <input type="password" id="reg-password" placeholder="Set a strong password" autocomplete="new-password">
+              <i class="ri-eye-off-line password-toggle"></i>
+            </div>
+            <div class="password-field">
+              <input type="password" id="reg-confirm" placeholder="Confirm password" autocomplete="new-password">
+              <i class="ri-eye-off-line password-toggle"></i>
+            </div>
+            <button type="submit" id="register-submit-btn" disabled>Add me</button>
+            <p id="register-message" class="modal-message"></p>
+          </form>
+        </div>
+
+        <!-- Sign In -->
+        <div class="form-container sign-in">
+          <form id="login-form">
+            <h1>ComeBack!</h1>
+            <input type="text" id="login-username" placeholder="Enter your meeAddress" autocomplete="username">
+            <div class="password-field">
+              <input type="password" id="login-password" placeholder="Enter your meePassword" autocomplete="current-password">
+              <i class="ri-eye-off-line password-toggle"></i>
+            </div>
+            <button type="submit">Enter me</button>
+            <p id="login-message" class="modal-message"></p>
+          </form>
+        </div>
+
+        <!-- Toggle Panels -->
+        <div class="toggle-container">
+          <div class="toggle">
+            <div class="toggle-panel toggle-left">
+              <h1>meeians Back!</h1>
+              <p>Enter your meeDetails to use all of mee services again!</p>
+              <button class="hidden" id="login">Enter me</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+              <h1>Hello, meeVisitors</h1>
+              <p>Register as a meeian to use all of mee services</p>
+              <button class="hidden" id="register">Add me</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <form id="login-form" class="auth-form active">
-        <div class="form-group"><label>mee Address</label><input type="text" id="login-username" placeholder="yourname" required><div class="form-hint">@mee.com</div></div>
-        <div class="form-group password-field"><label>Password</label><input type="password" id="login-password" required><i class="ri-eye-off-line password-toggle"></i></div>
-        <button type="submit" class="btn-primary btn-full">Sign In</button>
-        <p id="login-message" class="modal-message"></p>
-      </form>
-      <form id="register-form" class="auth-form">
-        <div class="form-group"><label>Choose your mee Address</label><input type="text" id="reg-username" placeholder="yourname" required><div class="form-hint">Only lowercase letters, digits, dots (.) and hyphens (-)</div><p id="username-status" class="check-status"></p></div>
-        <div class="form-group password-field"><label>Password</label><input type="password" id="reg-password" required><i class="ri-eye-off-line password-toggle"></i></div>
-        <div class="form-group password-field"><label>Confirm Password</label><input type="password" id="reg-confirm" required><i class="ri-eye-off-line password-toggle"></i></div>
-        <button type="submit" class="btn-primary btn-full" id="register-submit-btn" disabled>Create Address</button>
-        <p id="register-message" class="modal-message"></p>
-      </form>
     </div>
   </div>
 
+  <!-- Compose Modal -->
   <div id="compose-modal" class="modal">
     <div class="modal-content compose-modal-content">
       <span class="modal-close">&times;</span>

@@ -31,36 +31,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const manageAddress = document.getElementById('manage-address');
   const manageMessage = document.getElementById('manage-message');
   const snackbar = document.getElementById('snackbar');
+  const container = document.getElementById('container'); // slider container
+  const registerToggle = document.getElementById('register');
+  const loginToggle = document.getElementById('login');
 
   let currentUser = null;
   let currentProfile = null;
   let accounts = JSON.parse(localStorage.getItem('meeMailAccounts') || '[]');
 
-  // Helper: update avatar display everywhere
+  // ---- Sliding toggle logic ----
+  registerToggle.addEventListener('click', () => {
+    container.classList.add("active");
+  });
+  loginToggle.addEventListener('click', () => {
+    container.classList.remove("active");
+  });
+
+  // ---- Helpers ----
+  function showSnackbar(msg, type='info') {
+    snackbar.textContent = msg;
+    snackbar.style.background = type==='error' ? '#dc2626' : 'var(--black)';
+    snackbar.classList.add('show');
+    setTimeout(() => snackbar.classList.remove('show'), 3000);
+  }
+  function toggleModal(modal, show) { modal.classList.toggle('open', show); }
+
   function updateAvatars(profile) {
     const url = profile?.avatar_url || '';
     const initial = profile?.mee_address ? profile.mee_address.charAt(0).toUpperCase() : '?';
-    
-    // Header avatar
     if (url) {
-      avatarImg.src = url;
-      avatarImg.style.display = 'block';
-      avatarInitial.style.display = 'none';
+      avatarImg.src = url; avatarImg.style.display = 'block'; avatarInitial.style.display = 'none';
     } else {
-      avatarImg.style.display = 'none';
-      avatarInitial.textContent = initial;
-      avatarInitial.style.display = 'flex';
+      avatarImg.style.display = 'none'; avatarInitial.textContent = initial; avatarInitial.style.display = 'flex';
     }
-    // Manage page
     if (manageSection) {
       if (url) {
-        manageAvatarImg.src = url;
-        manageAvatarImg.style.display = 'block';
-        manageAvatarInitial.style.display = 'none';
+        manageAvatarImg.src = url; manageAvatarImg.style.display = 'block'; manageAvatarInitial.style.display = 'none';
       } else {
-        manageAvatarImg.style.display = 'none';
-        manageAvatarInitial.textContent = initial;
-        manageAvatarInitial.style.display = 'flex';
+        manageAvatarImg.style.display = 'none'; manageAvatarInitial.textContent = initial; manageAvatarInitial.style.display = 'flex';
       }
     }
   }
@@ -81,11 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       loadInbox();
       renderOtherAccounts();
-      if (window.deferredPrompt) installBtn.style.display = 'flex';
-      else installBtn.style.display = 'none';
+      if (window.deferredPrompt) installBtn.style.display = 'flex'; else installBtn.style.display = 'none';
     } else {
-      currentUser = null;
-      currentProfile = null;
+      currentUser = null; currentProfile = null;
       publicSections.style.display = 'block';
       appContainer.style.display = 'none';
       userMenu.style.display = 'none';
@@ -98,15 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const { data } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
     currentProfile = data;
   }
-
-  function showSnackbar(msg, type='info') {
-    snackbar.textContent = msg;
-    snackbar.style.background = type==='error' ? '#dc2626' : 'var(--black)';
-    snackbar.classList.add('show');
-    setTimeout(() => snackbar.classList.remove('show'), 3000);
-  }
-
-  function toggleModal(modal, show) { modal.classList.toggle('open', show); }
 
   // Multi-account
   function storeAccount(email, refreshToken) {
@@ -122,22 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderOtherAccounts() {
     otherAccountsList.innerHTML = '';
     const other = accounts.filter(a => a.email !== (currentProfile?.mee_address || ''));
-    if (other.length === 0) {
-      otherAccountsSection.style.display = 'none';
-      return;
-    }
+    if (other.length === 0) { otherAccountsSection.style.display = 'none'; return; }
     otherAccountsSection.style.display = 'block';
     other.forEach(acc => {
       const div = document.createElement('div');
       div.className = 'other-account-item';
       div.innerHTML = `<span class="mini-avatar">${acc.email.charAt(0).toUpperCase()}</span> ${acc.email} <button class="remove-acc" data-email="${acc.email}">Remove</button>`;
       div.addEventListener('click', (e) => {
-        if (e.target.classList.contains('remove-acc')) {
-          e.stopPropagation();
-          removeAccount(acc.email);
-          renderOtherAccounts();
-          return;
-        }
+        if (e.target.classList.contains('remove-acc')) { e.stopPropagation(); removeAccount(acc.email); renderOtherAccounts(); return; }
         switchAccount(acc.email);
       });
       otherAccountsList.appendChild(div);
@@ -174,50 +163,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   menuToggle.addEventListener('click', () => sidebar.classList.toggle('show'));
 
-  // Manage Account page load
   function loadManageAccount() {
     if (!currentProfile) return;
     manageAddress.value = currentProfile.mee_address || '';
-    // Show current avatar state
     updateAvatars(currentProfile);
   }
 
-  // Upload avatar
+  // Avatar upload
   saveAvatarBtn.addEventListener('click', async () => {
     const file = avatarFileInput.files[0];
-    if (!file) {
-      manageMessage.textContent = 'Please select an image.';
-      return;
-    }
-    if (file.size > 2 * 1024 * 1024) {
-      manageMessage.textContent = 'File too large. Max 2 MB.';
-      return;
-    }
+    if (!file) { manageMessage.textContent = 'Please select an image.'; return; }
+    if (file.size > 2 * 1024 * 1024) { manageMessage.textContent = 'File too large. Max 2 MB.'; return; }
     const fileExt = file.name.split('.').pop();
     const fileName = `${currentUser.id}-${Date.now()}.${fileExt}`;
-
-    // Upload to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(fileName, file, { cacheControl: '3600', upsert: true });
-
-    if (uploadError) {
-      manageMessage.textContent = 'Upload failed: ' + uploadError.message;
-      return;
-    }
-
-    // Get public URL
+    const { data: uploadData, error: uploadError } = await supabase.storage.from('avatars').upload(fileName, file, { cacheControl: '3600', upsert: true });
+    if (uploadError) { manageMessage.textContent = 'Upload failed: ' + uploadError.message; return; }
     const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(fileName);
     const publicUrl = publicUrlData.publicUrl;
-
-    // Update profile
-    const { error: updateError } = await supabase.from('profiles')
-      .update({ avatar_url: publicUrl })
-      .eq('id', currentUser.id);
-
-    if (updateError) {
-      manageMessage.textContent = 'Update failed: ' + updateError.message;
-    } else {
+    const { error: updateError } = await supabase.from('profiles').update({ avatar_url: publicUrl }).eq('id', currentUser.id);
+    if (updateError) { manageMessage.textContent = 'Update failed: ' + updateError.message; }
+    else {
       currentProfile.avatar_url = publicUrl;
       updateAvatars(currentProfile);
       manageMessage.textContent = 'Profile picture updated!';
@@ -225,22 +190,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Dropdown / other buttons
+  // Header signin / hero button
   headerSigninBtn.addEventListener('click', () => {
     toggleModal(authModal, true);
-    document.getElementById('tab-login').click();
+    container.classList.remove('active'); // show sign-in panel
   });
   document.getElementById('hero-get-started-btn').addEventListener('click', () => {
     toggleModal(authModal, true);
-    document.getElementById('tab-register').click();
+    container.classList.add('active'); // show sign-up panel
   });
   userBtn.addEventListener('click', () => userDropdown.classList.toggle('show'));
-  window.addEventListener('click', (e) => {
-    if (!e.target.closest('.user-menu')) userDropdown.classList.remove('show');
-  });
+  window.addEventListener('click', (e) => { if (!e.target.closest('.user-menu')) userDropdown.classList.remove('show'); });
   manageAccountBtn.addEventListener('click', () => {
     userDropdown.classList.remove('show');
-    // Switch to manage section
     document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
     document.querySelector('.sidebar-link[data-section="manage-account"]').classList.add('active');
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -250,15 +212,12 @@ document.addEventListener('DOMContentLoaded', () => {
   addAccountBtn.addEventListener('click', () => {
     userDropdown.classList.remove('show');
     toggleModal(authModal, true);
-    document.getElementById('tab-login').click();
+    container.classList.remove('active'); // show login to add account
   });
   installBtn.addEventListener('click', () => {
     if (window.deferredPrompt) {
       window.deferredPrompt.prompt();
-      window.deferredPrompt.userChoice.then(() => {
-        window.deferredPrompt = null;
-        installBtn.style.display = 'none';
-      });
+      window.deferredPrompt.userChoice.then(() => { window.deferredPrompt = null; installBtn.style.display = 'none'; });
     }
   });
   logoutBtn.addEventListener('click', async () => {
@@ -267,20 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshUI();
   });
 
-  // Auth tabs & forms
-  document.getElementById('tab-login').addEventListener('click', () => {
-    document.getElementById('tab-login').classList.add('active');
-    document.getElementById('tab-register').classList.remove('active');
-    document.getElementById('login-form').classList.add('active');
-    document.getElementById('register-form').classList.remove('active');
-  });
-  document.getElementById('tab-register').addEventListener('click', () => {
-    document.getElementById('tab-register').classList.add('active');
-    document.getElementById('tab-login').classList.remove('active');
-    document.getElementById('register-form').classList.add('active');
-    document.getElementById('login-form').classList.remove('active');
-  });
-
+  // Password toggle (for both modals)
   document.querySelectorAll('.password-toggle').forEach(icon => {
     icon.addEventListener('click', () => {
       const input = icon.previousElementSibling;
@@ -291,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Login form
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('login-username').value.trim();
@@ -305,6 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Register form
+  const regName = document.getElementById('reg-name');
   const regUsername = document.getElementById('reg-username');
   const usernameStatus = document.getElementById('username-status');
   const registerSubmit = document.getElementById('register-submit-btn');
@@ -330,12 +279,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const name = regName.value.trim();
     const username = regUsername.value.trim();
     const password = document.getElementById('reg-password').value;
     const confirm = document.getElementById('reg-confirm').value;
     if (password !== confirm) { document.getElementById('register-message').textContent = 'Passwords do not match.'; return; }
     const email = username + '@mee.com';
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ email, password, options: { data: { name } } });
     if (error) {
       document.getElementById('register-message').textContent = error.message;
     } else {
@@ -344,11 +294,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Compose modal
-  document.getElementById('fab-compose-btn').addEventListener('click', () => toggleModal(composeModal, true));
-  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => close.closest('.modal').classList.remove('open')));
+  // Close modals on X or outside click
+  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => {
+    close.closest('.modal').classList.remove('open');
+  }));
   window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) e.target.classList.remove('open'); });
 
+  // Compose modal (FAB)
+  document.getElementById('fab-compose-btn').addEventListener('click', () => toggleModal(composeModal, true));
   document.getElementById('compose-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const toAddress = document.getElementById('compose-to').value.trim();
@@ -366,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Inbox / Sent functions
+  // Inbox / Sent
   async function loadInbox() {
     if (!currentUser) return;
     const { data: messages, error } = await supabase.from('messages')
