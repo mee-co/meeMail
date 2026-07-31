@@ -17,164 +17,144 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/Official/meeMail/sw.js');
     }
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
   </script>
 </head>
 <body>
-  <!-- Auth Container -->
-  <div id="auth-container">
-    <div class="auth-box">
-      <div class="auth-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" style="width: 240px; height: auto; margin-bottom: 2rem;">
+  <!-- Unified Header (always visible) -->
+  <header class="top-bar">
+    <div class="top-left">
+      <button id="menu-toggle" class="icon-btn" style="display:none;"><i class="ri-menu-line"></i></button>
+      <div class="app-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" style="height: 36px;">
           <defs>
             <style>
               .brand{font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px;}
             </style>
           </defs>
-          <text x="12" y="64" class="brand" fill="#0F172A">m</text>
+          <text x="12" y="64" class="brand" fill="#FFFFFF">m</text>
           <text x="72" y="64" class="brand" fill="#2563EB">e</text>
           <text x="112" y="64" class="brand" fill="#2563EB">e</text>
           <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
           <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-          <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
+          <text x="145" y="64" class="brand" fill="#FFFFFF">Mail</text>
         </svg>
       </div>
+    </div>
+    <div class="top-right" id="top-right-area">
+      <!-- Login button (only visible when logged out) -->
+      <button id="header-signin-btn" class="btn-primary btn-small" style="display:none;">Sign in</button>
+      <!-- Avatar (visible when logged in) -->
+      <div class="user-menu" id="user-menu" style="display:none;">
+        <button id="user-btn" class="avatar-btn">
+          <span class="avatar-initial" id="avatar-initial"></span>
+        </button>
+        <div id="user-dropdown" class="dropdown-menu">
+          <div class="dropdown-header">
+            <span id="dropdown-address"></span>
+          </div>
+          <button id="manage-account-btn" class="dropdown-item"><i class="ri-settings-3-line"></i> Manage your meeAccount</button>
+          <div class="other-accounts-section" id="other-accounts-section">
+            <div class="dropdown-label">Other accounts</div>
+            <div id="other-accounts-list"></div>
+            <button id="add-account-btn" class="dropdown-item"><i class="ri-add-line"></i> Add another account</button>
+          </div>
+          <button id="install-btn" class="dropdown-item" style="display:none;"><i class="ri-download-2-line"></i> Install meeMail</button>
+          <button id="logout-btn" class="dropdown-item"><i class="ri-logout-box-r-line"></i> Sign out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <div id="main-content">
+    <!-- Public Landing Sections (visible when logged out) -->
+    <div id="public-sections" style="display: block;">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-text">
+            <h1 class="hero-title">Your private space<br>for communication</h1>
+            <p class="hero-description">meeMail gives every meeian a unique @mee.com address. No external email, no tracking.</p>
+            <div class="hero-actions">
+              <button class="btn-primary btn-large" id="hero-get-started-btn">Get your @mee.com address</button>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="visual-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="big-logo">
+                <defs><style>.brand{font-family:Inter,"SF Pro Display",Poppins,Arial,sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;}</style></defs>
+                <text x="12" y="64" class="brand" fill="#0F172A">m</text>
+                <text x="72" y="64" class="brand" fill="#2563EB">e</text>
+                <text x="112" y="64" class="brand" fill="#2563EB">e</text>
+                <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+                <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+                <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="about section"><div class="container"><h2 class="section-title">What is meeMail?</h2><p class="section-text">meeMail is the official messaging platform of the mee ecosystem. It gives every meeian a unique @mee.com address that works across all mee services — no external email accounts, no spam, just seamless, encrypted communication between verified members.</p></div></section>
+      <section class="features section"><div class="container"><h2 class="section-title">Why meeMail?</h2><div class="features-grid"><div class="feature-card"><div class="feature-icon"><i class="ri-shield-check-line"></i></div><h3>End-to-End Encrypted</h3><p>Every message is secured. Only you and the recipient can read it.</p></div><div class="feature-card"><div class="feature-icon"><i class="ri-fingerprint-line"></i></div><h3>One Identity</h3><p>Your @mee.com address is your passport to all mee products.</p></div><div class="feature-card"><div class="feature-icon"><i class="ri-global-line"></i></div><h3>Zero External Dependencies</h3><p>No Gmail, Yahoo, or any third-party. meeMail runs entirely on its own network.</p></div><div class="feature-card"><div class="feature-icon"><i class="ri-mail-send-line"></i></div><h3>Smart Inbox</h3><p>Clean, focused interface for your conversations. No ads, no distractions.</p></div></div></div></section>
+      <footer class="footer"><div class="container footer-content"><p class="footer-text">2026-Present meeMail. All Rights Reserved.</p><p class="footer-sub">Built for the mee ecosystem.</p></div></footer>
+    </div>
+
+    <!-- App Container (visible when logged in) -->
+    <div id="app-container" style="display: none;">
+      <div class="app-body">
+        <aside id="sidebar" class="sidebar">
+          <button id="compose-btn" class="btn-primary btn-full sidebar-compose"><i class="ri-pencil-line"></i> Compose</button>
+          <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active" data-section="inbox"><i class="ri-inbox-line"></i> Inbox <span class="count" id="inbox-count" style="display:none;">0</span></a>
+            <a href="#" class="sidebar-link" data-section="sent"><i class="ri-send-plane-line"></i> Sent</a>
+            <a href="#" class="sidebar-link" data-section="drafts"><i class="ri-draft-line"></i> Drafts</a>
+            <a href="#" class="sidebar-link" data-section="spam"><i class="ri-spam-line"></i> Spam</a>
+            <a href="#" class="sidebar-link" data-section="trash"><i class="ri-delete-bin-line"></i> Trash</a>
+          </nav>
+        </aside>
+        <main class="main-content">
+          <section id="section-inbox" class="content-section active">
+            <div class="inbox-header"><h2 class="section-heading">Inbox</h2><button class="icon-btn btn-small" id="refresh-btn"><i class="ri-refresh-line"></i></button></div>
+            <div id="inbox-list" class="message-list"></div>
+          </section>
+          <section id="section-sent" class="content-section"><h2 class="section-heading">Sent</h2><div id="sent-list" class="message-list"></div></section>
+          <section id="section-drafts" class="content-section"><h2 class="section-heading">Drafts</h2><div class="empty-state"><i class="ri-draft-line"></i><p>No drafts saved</p></div></section>
+          <section id="section-spam" class="content-section"><h2 class="section-heading">Spam</h2><div class="empty-state"><i class="ri-spam-line"></i><p>No spam messages</p></div></section>
+          <section id="section-trash" class="content-section"><h2 class="section-heading">Trash</h2><div class="empty-state"><i class="ri-delete-bin-line"></i><p>Trash is empty</p></div></section>
+          <section id="section-message-view" class="content-section">
+            <button id="back-btn" class="btn-outline btn-small"><i class="ri-arrow-left-line"></i> Back</button>
+            <div id="message-detail"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals (Login / Register / Compose) -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content auth-modal-content">
+      <span class="modal-close">&times;</span>
       <div class="auth-tabs">
         <button id="tab-login" class="tab active">Login</button>
         <button id="tab-register" class="tab">Register</button>
       </div>
       <form id="login-form" class="auth-form active">
-        <div class="form-group">
-          <label for="login-username">mee Address</label>
-          <input type="text" id="login-username" placeholder="yourname" required>
-          <div class="form-hint">@mee.com</div>
-        </div>
-        <div class="form-group password-field">
-          <label for="login-password">Password</label>
-          <input type="password" id="login-password" placeholder="••••••••" required>
-          <i class="ri-eye-off-line password-toggle"></i>
-        </div>
+        <div class="form-group"><label>mee Address</label><input type="text" id="login-username" placeholder="yourname" required><div class="form-hint">@mee.com</div></div>
+        <div class="form-group password-field"><label>Password</label><input type="password" id="login-password" required><i class="ri-eye-off-line password-toggle"></i></div>
         <button type="submit" class="btn-primary btn-full">Sign In</button>
         <p id="login-message" class="modal-message"></p>
       </form>
       <form id="register-form" class="auth-form">
-        <div class="form-group">
-          <label for="reg-username">Choose your mee Address</label>
-          <input type="text" id="reg-username" placeholder="yourname" required>
-          <div class="form-hint">Only lowercase letters, digits, dots (.) and hyphens (-)</div>
-          <p id="username-status" class="check-status"></p>
-        </div>
-        <div class="form-group password-field">
-          <label for="reg-password">Password</label>
-          <input type="password" id="reg-password" placeholder="At least 6 characters" required>
-          <i class="ri-eye-off-line password-toggle"></i>
-        </div>
-        <div class="form-group password-field">
-          <label for="reg-confirm">Confirm Password</label>
-          <input type="password" id="reg-confirm" placeholder="Re-enter password" required>
-          <i class="ri-eye-off-line password-toggle"></i>
-        </div>
+        <div class="form-group"><label>Choose your mee Address</label><input type="text" id="reg-username" placeholder="yourname" required><div class="form-hint">Only lowercase letters, digits, dots (.) and hyphens (-)</div><p id="username-status" class="check-status"></p></div>
+        <div class="form-group password-field"><label>Password</label><input type="password" id="reg-password" required><i class="ri-eye-off-line password-toggle"></i></div>
+        <div class="form-group password-field"><label>Confirm Password</label><input type="password" id="reg-confirm" required><i class="ri-eye-off-line password-toggle"></i></div>
         <button type="submit" class="btn-primary btn-full" id="register-submit-btn" disabled>Create Address</button>
         <p id="register-message" class="modal-message"></p>
       </form>
-    </div>
-  </div>
-
-  <!-- App Container -->
-  <div id="app-container" style="display: none;">
-    <header class="top-bar">
-      <div class="top-left">
-        <button id="menu-toggle" class="icon-btn"><i class="ri-menu-line"></i></button>
-        <div class="app-logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" style="height: 36px;">
-            <defs>
-              <style>
-                .brand{font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px;}
-              </style>
-            </defs>
-            <text x="12" y="64" class="brand" fill="#FFFFFF">m</text>
-            <text x="72" y="64" class="brand" fill="#2563EB">e</text>
-            <text x="112" y="64" class="brand" fill="#2563EB">e</text>
-            <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-            <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-            <text x="145" y="64" class="brand" fill="#FFFFFF">Mail</text>
-          </svg>
-        </div>
-      </div>
-      <div class="search-bar">
-        <i class="ri-search-line"></i>
-        <input type="text" placeholder="Search mail..." id="search-input">
-      </div>
-      <div class="top-right">
-        <button id="compose-btn-mobile" class="btn-primary btn-small"><i class="ri-pencil-line"></i></button>
-        <div class="user-menu">
-          <button id="user-btn" class="icon-btn"><i class="ri-user-3-line"></i></button>
-          <div id="user-dropdown" class="dropdown-menu">
-            <span id="current-address"></span>
-            <button id="logout-btn" class="btn-outline btn-small">Logout</button>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="app-body">
-      <aside id="sidebar" class="sidebar">
-        <button id="compose-btn" class="btn-primary btn-full sidebar-compose">
-          <i class="ri-pencil-line"></i> Compose
-        </button>
-        <nav class="sidebar-nav">
-          <a href="#" class="sidebar-link active" data-section="inbox">
-            <i class="ri-inbox-line"></i> Inbox
-            <span class="count" id="inbox-count" style="display:none;">0</span>
-          </a>
-          <a href="#" class="sidebar-link" data-section="sent">
-            <i class="ri-send-plane-line"></i> Sent
-          </a>
-          <a href="#" class="sidebar-link" data-section="drafts">
-            <i class="ri-draft-line"></i> Drafts
-          </a>
-          <a href="#" class="sidebar-link" data-section="spam">
-            <i class="ri-spam-line"></i> Spam
-          </a>
-          <a href="#" class="sidebar-link" data-section="trash">
-            <i class="ri-delete-bin-line"></i> Trash
-          </a>
-        </nav>
-      </aside>
-
-      <main class="main-content">
-        <section id="section-inbox" class="content-section active">
-          <div class="inbox-header">
-            <h2 class="section-heading">Inbox</h2>
-            <div class="inbox-actions">
-              <button class="icon-btn btn-small" id="refresh-btn"><i class="ri-refresh-line"></i></button>
-            </div>
-          </div>
-          <div id="inbox-list" class="message-list"></div>
-        </section>
-
-        <section id="section-sent" class="content-section">
-          <h2 class="section-heading">Sent</h2>
-          <div id="sent-list" class="message-list"></div>
-        </section>
-
-        <section id="section-drafts" class="content-section">
-          <h2 class="section-heading">Drafts</h2>
-          <div class="empty-state"><i class="ri-draft-line"></i><p>No drafts saved</p></div>
-        </section>
-        <section id="section-spam" class="content-section">
-          <h2 class="section-heading">Spam</h2>
-          <div class="empty-state"><i class="ri-spam-line"></i><p>No spam messages</p></div>
-        </section>
-        <section id="section-trash" class="content-section">
-          <h2 class="section-heading">Trash</h2>
-          <div class="empty-state"><i class="ri-delete-bin-line"></i><p>Trash is empty</p></div>
-        </section>
-
-        <section id="section-message-view" class="content-section">
-          <button id="back-btn" class="btn-outline btn-small"><i class="ri-arrow-left-line"></i> Back</button>
-          <div id="message-detail"></div>
-        </section>
-      </main>
     </div>
   </div>
 
@@ -183,18 +163,9 @@
       <span class="modal-close">&times;</span>
       <h2 class="modal-title">New Message</h2>
       <form id="compose-form">
-        <div class="form-group">
-          <label for="compose-to">To</label>
-          <input type="text" id="compose-to" placeholder="username@mee.com" required>
-        </div>
-        <div class="form-group">
-          <label for="compose-subject">Subject</label>
-          <input type="text" id="compose-subject" placeholder="Subject" required>
-        </div>
-        <div class="form-group">
-          <label for="compose-body">Message</label>
-          <textarea id="compose-body" rows="10" placeholder="Write your message..." required></textarea>
-        </div>
+        <div class="form-group"><label>To</label><input type="text" id="compose-to" placeholder="username@mee.com" required></div>
+        <div class="form-group"><label>Subject</label><input type="text" id="compose-subject" required></div>
+        <div class="form-group"><label>Message</label><textarea id="compose-body" rows="10" required></textarea></div>
         <button type="submit" class="btn-primary btn-full">Send</button>
         <p id="compose-message" class="modal-message"></p>
       </form>
@@ -202,7 +173,6 @@
   </div>
 
   <div id="snackbar" class="snackbar"></div>
-
   <script src="script.js"></script>
 </body>
 </html>
