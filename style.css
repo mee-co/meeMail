@@ -23,7 +23,7 @@ body {
   line-height: 1.6;
 }
 
-/* অথেন্টিকেশন কন্টেইনার */
+/* অথেন্টিকেশন */
 #auth-container {
   display: flex;
   align-items: center;
@@ -40,39 +40,21 @@ body {
   max-width: 480px;
   margin: 2rem;
 }
-.auth-tabs {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
+.auth-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; }
 .tab {
-  flex: 1;
-  text-align: center;
-  padding: 0.8rem;
-  background: var(--gray-100);
-  border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
+  flex: 1; text-align: center; padding: 0.8rem; background: var(--gray-100);
+  border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
 }
-.tab.active {
-  background: var(--blue);
-  color: white;
-}
+.tab.active { background: var(--blue); color: white; }
 .auth-form { display: none; }
 .auth-form.active { display: block; }
 
-/* ফর্ম এলিমেন্ট */
+/* ফর্ম */
 .form-group { margin-bottom: 1.3rem; }
 .form-group label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
 .form-group input, .form-group textarea {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--gray-300);
-  border-radius: 8px;
-  font-family: var(--body-font);
-  font-size: 1rem;
-  outline: none;
+  width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--gray-300);
+  border-radius: 8px; font-family: var(--body-font); font-size: 1rem; outline: none;
   transition: border 0.2s;
 }
 .form-group input:focus, .form-group textarea:focus { border-color: var(--blue); }
@@ -83,114 +65,62 @@ body {
 .password-field { position: relative; }
 .password-field input { padding-right: 2.5rem; }
 .password-toggle {
-  position: absolute;
-  right: 0.8rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: var(--gray-600);
-  cursor: pointer;
+  position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
+  font-size: 1.2rem; color: var(--gray-600); cursor: pointer;
 }
 
 /* বাটন */
 .btn-primary {
-  background: var(--blue);
-  color: white;
-  padding: 0.7rem 1.8rem;
-  border-radius: 8px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
+  background: var(--blue); color: white; padding: 0.7rem 1.8rem;
+  border-radius: 8px; font-weight: 600; border: none; cursor: pointer;
   transition: background var(--transition);
 }
 .btn-primary:hover { background: var(--blue-dark); }
 .btn-outline {
-  background: transparent;
-  border: 2px solid var(--blue);
-  color: var(--blue);
-  padding: 0.6rem 1.6rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+  background: transparent; border: 2px solid var(--blue); color: var(--blue);
+  padding: 0.6rem 1.6rem; border-radius: 8px; font-weight: 600; cursor: pointer;
   transition: all var(--transition);
 }
 .btn-outline:hover { background: var(--blue); color: white; }
 .btn-full { width: 100%; margin-top: 0.5rem; }
 .btn-small { padding: 0.5rem 1.5rem; font-size: 0.9rem; }
-.icon-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
+.icon-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
 /* অ্যাপ হেডার */
 .app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--black);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--black); color: white; padding: 0.8rem 1.5rem;
+  position: sticky; top: 0; z-index: 100;
 }
 .header-left { display: flex; align-items: center; gap: 1rem; }
 .app-logo svg { height: 40px; width: auto; }
 .header-right { display: flex; align-items: center; gap: 1rem; }
 .user-menu { position: relative; }
 #user-dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: white;
-  color: black;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  min-width: 200px;
-  z-index: 200;
+  display: none; position: absolute; right: 0; top: 100%;
+  background: white; color: black; padding: 1rem; border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 200px; z-index: 200;
 }
 #user-dropdown.show { display: block; }
 #current-address { font-weight: 600; display: block; margin-bottom: 0.5rem; }
 
 /* সাইডবার */
 .sidebar {
-  width: 260px;
-  background: var(--gray-50);
-  border-right: 1px solid var(--gray-200);
-  height: calc(100vh - 64px);
-  position: fixed;
-  left: 0;
-  top: 64px;
-  padding: 1.5rem 0;
-  transition: transform var(--transition);
+  width: 260px; background: var(--gray-50); border-right: 1px solid var(--gray-200);
+  height: calc(100vh - 64px); position: fixed; left: 0; top: 64px;
+  padding: 1.5rem 0; transition: transform var(--transition);
 }
 .sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.8rem 2rem;
-  color: var(--black);
-  font-weight: 500;
-  text-decoration: none;
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 2rem;
+  color: var(--black); font-weight: 500; text-decoration: none;
   transition: background 0.2s;
 }
 .sidebar-link i { font-size: 1.3rem; }
-.sidebar-link:hover, .sidebar-link.active {
-  background: var(--gray-200);
-  color: var(--blue);
-}
+.sidebar-link:hover, .sidebar-link.active { background: var(--gray-200); color: var(--blue); }
 
 /* মেইন কন্টেন্ট */
 .main-content {
-  margin-left: 260px;
-  padding: 2rem;
-  min-height: calc(100vh - 64px);
-  background: var(--white);
+  margin-left: 260px; padding: 2rem; min-height: calc(100vh - 64px); background: var(--white);
 }
 .content-section { display: none; }
 .content-section.active { display: block; animation: fadeIn 0.3s ease; }
@@ -201,76 +131,52 @@ body {
 /* মেসেজ লিস্ট */
 .message-list { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-200); }
 .message-item {
-  display: flex;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--gray-200);
-  cursor: pointer;
+  display: flex; align-items: center; padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--gray-200); cursor: pointer;
   transition: background 0.2s;
 }
 .message-item:hover { background: var(--gray-50); }
-.message-item.unread { font-weight: 700; }
-.message-item .sender { width: 150px; font-weight: 600; }
+.message-item.unread { font-weight: 700; background: #f0f7ff; }
+.message-item .sender { width: 160px; font-weight: 600; color: var(--black); }
 .message-item .subject { flex: 1; margin: 0 1rem; }
-.message-item .date { color: var(--gray-600); font-size: 0.85rem; white-space: nowrap; }
+.message-item .preview { color: var(--gray-600); flex: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.message-item .date { color: var(--gray-600); font-size: 0.85rem; white-space: nowrap; margin-left: 1rem; }
 
 /* মোডাল */
 .modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(15,23,42,0.6);
-  backdrop-filter: blur(4px);
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15,23,42,0.6); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center; z-index: 200;
 }
 .modal.open { display: flex; }
 .modal-content {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 440px;
-  position: relative;
+  background: white; padding: 2.5rem; border-radius: 16px;
+  width: 90%; max-width: 440px; position: relative;
   box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
 .compose-modal-content { max-width: 640px; }
 .modal-close {
-  position: absolute;
-  top: 1rem; right: 1.2rem;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: var(--gray-600);
+  position: absolute; top: 1rem; right: 1.2rem; font-size: 1.8rem;
+  cursor: pointer; color: var(--gray-600);
 }
 .modal-title { margin-bottom: 2rem; font-size: 1.8rem; font-weight: 700; }
 
 /* পপআপ */
 .popup {
-  display: none;
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  z-index: 300;
-  text-align: center;
+  display: none; position: fixed; top: 30%; left: 50%;
+  transform: translate(-50%, -30%); background: white; padding: 2rem;
+  border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  z-index: 300; text-align: center;
 }
 .popup.show { display: block; }
 .popup p { margin-bottom: 1.5rem; }
 
-/* রেসপনসিভ */
 @media (max-width: 768px) {
   .sidebar {
-    transform: translateX(-100%);
-    position: fixed;
-    z-index: 150;
+    transform: translateX(-100%); position: fixed; z-index: 150;
   }
   .sidebar.show { transform: translateX(0); }
   .main-content { margin-left: 0; }
   .header-left { gap: 0.5rem; }
+  .message-item .preview { display: none; }
 }

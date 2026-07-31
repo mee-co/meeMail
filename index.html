@@ -20,11 +20,11 @@
   </script>
 </head>
 <body>
-  <!-- ==================== অথেন্টিকেশন কন্টেইনার ==================== -->
+  <!-- অথেন্টিকেশন কন্টেইনার -->
   <div id="auth-container">
     <div class="auth-box">
       <div class="auth-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg" style="width: 260px; height: auto; margin-bottom: 2rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" style="width: 260px; height: auto; margin-bottom: 2rem;">
           <defs>
             <style>
               .brand{font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px;}
@@ -43,7 +43,6 @@
         <button id="tab-register" class="tab">Register</button>
       </div>
 
-      <!-- Login Form -->
       <form id="login-form" class="auth-form active">
         <div class="form-group">
           <label for="login-username">mee Address</label>
@@ -53,13 +52,12 @@
         <div class="form-group password-field">
           <label for="login-password">Password</label>
           <input type="password" id="login-password" placeholder="••••••••" required>
-          <i class="ri-eye-line password-toggle"></i>
+          <i class="ri-eye-off-line password-toggle"></i>
         </div>
         <button type="submit" class="btn-primary btn-full">Sign In</button>
         <p id="login-message" class="modal-message"></p>
       </form>
 
-      <!-- Register Form -->
       <form id="register-form" class="auth-form">
         <div class="form-group">
           <label for="reg-username">Choose your mee Address</label>
@@ -70,12 +68,12 @@
         <div class="form-group password-field">
           <label for="reg-password">Password</label>
           <input type="password" id="reg-password" placeholder="At least 6 characters" required>
-          <i class="ri-eye-line password-toggle"></i>
+          <i class="ri-eye-off-line password-toggle"></i>
         </div>
         <div class="form-group password-field">
           <label for="reg-confirm">Confirm Password</label>
           <input type="password" id="reg-confirm" placeholder="Re-enter password" required>
-          <i class="ri-eye-line password-toggle"></i>
+          <i class="ri-eye-off-line password-toggle"></i>
         </div>
         <button type="submit" class="btn-primary btn-full" id="register-submit-btn" disabled>Create Address</button>
         <p id="register-message" class="modal-message"></p>
@@ -83,9 +81,8 @@
     </div>
   </div>
 
-  <!-- ==================== অ্যাপ কন্টেইনার (লগইনের পরে) ==================== -->
+  <!-- অ্যাপ কন্টেইনার -->
   <div id="app-container" style="display: none;">
-    <!-- নেভিগেশন বার -->
     <header class="app-header">
       <div class="header-left">
         <button id="menu-toggle" class="icon-btn"><i class="ri-menu-line"></i></button>
@@ -111,13 +108,12 @@
           <button id="user-btn" class="icon-btn"><i class="ri-user-3-line"></i></button>
           <div id="user-dropdown" class="dropdown-menu">
             <span id="current-address"></span>
-            <button id="logout-btn">Logout</button>
+            <button id="logout-btn" class="btn-outline btn-small">Logout</button>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- সাইডবার -->
     <aside id="sidebar" class="sidebar">
       <nav>
         <ul>
@@ -129,33 +125,27 @@
       </nav>
     </aside>
 
-    <!-- মেইন কন্টেন্ট -->
     <main class="main-content">
-      <!-- ইনবক্স -->
       <section id="section-inbox" class="content-section active">
         <h2 class="section-heading">Inbox</h2>
         <div id="inbox-list" class="message-list"></div>
       </section>
 
-      <!-- সেন্ট -->
       <section id="section-sent" class="content-section">
         <h2 class="section-heading">Sent</h2>
         <div id="sent-list" class="message-list"></div>
       </section>
 
-      <!-- ড্রাফটস -->
       <section id="section-drafts" class="content-section">
         <h2 class="section-heading">Drafts</h2>
         <p class="section-text">No drafts yet.</p>
       </section>
 
-      <!-- কনট্যাক্টস -->
       <section id="section-contacts" class="content-section">
         <h2 class="section-heading">Contacts</h2>
         <p class="section-text">Your contacts will appear here.</p>
       </section>
 
-      <!-- মেসেজ ভিউ -->
       <section id="section-message-view" class="content-section">
         <button id="back-btn" class="btn-outline"><i class="ri-arrow-left-line"></i> Back</button>
         <div id="message-detail"></div>
@@ -163,7 +153,6 @@
     </main>
   </div>
 
-  <!-- কম্পোজ মোডাল -->
   <div id="compose-modal" class="modal">
     <div class="modal-content compose-modal-content">
       <span class="modal-close">&times;</span>
@@ -187,7 +176,6 @@
     </div>
   </div>
 
-  <!-- পপআপ -->
   <div id="popup" class="popup">
     <p id="popup-message"></p>
     <button id="popup-close" class="btn-primary btn-small">OK</button>
