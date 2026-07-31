@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Compose modal
-  document.getElementById('compose-btn').addEventListener('click', () => toggleModal(composeModal, true));
+  document.getElementById('fab-compose-btn').addEventListener('click', () => toggleModal(composeModal, true));
   document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => close.closest('.modal').classList.remove('open')));
   window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) e.target.classList.remove('open'); });
 

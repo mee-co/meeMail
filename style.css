@@ -158,3 +158,34 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
   .message-item .sender { width: 100px; }
   .manage-account-card { flex-direction: column; }
 }
+
+/* Floating Action Button (FAB) */
+.fab-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  z-index: 50;
+}
+.fab-btn:hover {
+  background: var(--blue-dark);
+  transform: scale(1.05);
+}
+@media (max-width: 768px) {
+  .fab-btn {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
