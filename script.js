@@ -16,34 +16,52 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerSubmit = document.getElementById('register-submit-btn');
   const logoutBtn = document.getElementById('logout-btn');
   const composeBtn = document.getElementById('compose-btn');
+  const composeBtnMobile = document.getElementById('compose-btn-mobile');
   const composeModal = document.getElementById('compose-modal');
   const composeForm = document.getElementById('compose-form');
   const composeMsg = document.getElementById('compose-message');
-  const popup = document.getElementById('popup');
-  const popupMsg = document.getElementById('popup-message');
-  const popupClose = document.getElementById('popup-close');
+  const snackbar = document.getElementById('snackbar');
   const menuToggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('sidebar');
   const userBtn = document.getElementById('user-btn');
   const userDropdown = document.getElementById('user-dropdown');
   const currentAddressSpan = document.getElementById('current-address');
   const backBtn = document.getElementById('back-btn');
+  const refreshBtn = document.getElementById('refresh-btn');
   const inboxSection = document.getElementById('section-inbox');
   const messageViewSection = document.getElementById('section-message-view');
   const messageDetail = document.getElementById('message-detail');
+  const inboxCountSpan = document.getElementById('inbox-count');
+  const searchInput = document.getElementById('search-input');
 
   let currentUser = null;
   let currentProfile = null;
   let previousSection = 'inbox';
+  let allMessages = [];
 
-  tabLogin.addEventListener('click', () => {
-    tabLogin.classList.add('active'); tabRegister.classList.remove('active');
-    loginForm.classList.add('active'); registerForm.classList.remove('active');
-  });
-  tabRegister.addEventListener('click', () => {
-    tabRegister.classList.add('active'); tabLogin.classList.remove('active');
-    registerForm.classList.add('active'); loginForm.classList.remove('active');
-  });
+  function showSnackbar(message, type = 'info') {
+    snackbar.textContent = message;
+    snackbar.style.background = type === 'error' ? '#dc2626' : 'var(--black)';
+    snackbar.classList.add('show');
+    setTimeout(() => snackbar.classList.remove('show'), 3000);
+  }
+
+  function toggleModal(modal, show) {
+    if (show) modal.classList.add('open');
+    else modal.classList.remove('open');
+  }
+
+  function setActiveTab(tab, form) {
+    tabLogin.classList.remove('active');
+    tabRegister.classList.remove('active');
+    loginForm.classList.remove('active');
+    registerForm.classList.remove('active');
+    tab.classList.add('active');
+    form.classList.add('active');
+  }
+
+  tabLogin.addEventListener('click', () => setActiveTab(tabLogin, loginForm));
+  tabRegister.addEventListener('click', () => setActiveTab(tabRegister, registerForm));
 
   document.querySelectorAll('.password-toggle').forEach(icon => {
     icon.addEventListener('click', () => {
@@ -55,25 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  function showPopup(message) {
-    popupMsg.textContent = message; popup.classList.add('show');
-  }
-  popupClose.addEventListener('click', () => popup.classList.remove('show'));
-
   async function checkSession() {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
       currentUser = session.user;
       await loadProfile();
       authContainer.style.display = 'none';
-      appContainer.style.display = 'flex';
+      appContainer.style.display = 'block';
       if (currentProfile) currentAddressSpan.textContent = currentProfile.mee_address;
       loadInbox();
-      supabase.channel('messages').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_user=eq.${currentUser.id}` }, () => {
-        if (inboxSection.classList.contains('active')) loadInbox();
-      }).subscribe();
+      supabase.channel('messages-' + currentUser.id)
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_user=eq.${currentUser.id}` }, () => {
+          if (inboxSection.classList.contains('active')) loadInbox();
+        })
+        .subscribe();
     } else {
-      authContainer.style.display = 'flex'; appContainer.style.display = 'none';
+      authContainer.style.display = 'flex';
+      appContainer.style.display = 'none';
     }
   }
   checkSession();
@@ -93,12 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (error.message.includes('Invalid login credentials')) {
         const { data: profile } = await supabase.from('profiles').select('verified').eq('mee_address', email).maybeSingle();
         if (profile && !profile.verified) {
-          showPopup('Your account is not yet verified. Please check your inbox.');
+          showSnackbar('Your account is not yet verified. Please check your inbox.', 'error');
         } else {
-          showPopup('Invalid credentials or account does not exist.');
+          showSnackbar('Invalid credentials or account does not exist.', 'error');
         }
       } else {
-        showPopup(error.message);
+        showSnackbar(error.message, 'error');
       }
     } else {
       checkSession();
@@ -107,26 +123,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const allowedPattern = /^[a-z0-9._-]+$/;
   let debounceTimer;
-  if (regUsername) {
-    regUsername.addEventListener('input', () => {
-      clearTimeout(debounceTimer);
-      const username = regUsername.value.trim();
-      if (!username) { usernameStatus.textContent = ''; registerSubmit.disabled = true; return; }
-      debounceTimer = setTimeout(async () => {
-        if (!allowedPattern.test(username)) {
-          usernameStatus.textContent = 'Only lowercase letters, digits, dots, and hyphens.'; usernameStatus.style.color = 'red'; registerSubmit.disabled = true; return;
-        }
-        const email = username + '@mee.com';
-        const { data, error } = await supabase.from('profiles').select('mee_address').eq('mee_address', email).maybeSingle();
-        if (error) { usernameStatus.textContent = 'Error checking availability.'; registerSubmit.disabled = true; return; }
-        if (data) {
-          usernameStatus.textContent = 'This address is already taken.'; usernameStatus.style.color = 'red'; registerSubmit.disabled = true;
-        } else {
-          usernameStatus.textContent = 'Available!'; usernameStatus.style.color = 'green'; registerSubmit.disabled = false;
-        }
-      }, 300);
-    });
-  }
+  regUsername.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    const username = regUsername.value.trim();
+    if (!username) { usernameStatus.textContent = ''; registerSubmit.disabled = true; return; }
+    debounceTimer = setTimeout(async () => {
+      if (!allowedPattern.test(username)) {
+        usernameStatus.textContent = 'Only lowercase letters, digits, dots, and hyphens.';
+        usernameStatus.style.color = 'red';
+        registerSubmit.disabled = true;
+        return;
+      }
+      const email = username + '@mee.com';
+      const { data, error } = await supabase.from('profiles').select('mee_address').eq('mee_address', email).maybeSingle();
+      if (error) { usernameStatus.textContent = 'Error checking availability.'; registerSubmit.disabled = true; return; }
+      if (data) {
+        usernameStatus.textContent = 'This address is already taken.';
+        usernameStatus.style.color = 'red';
+        registerSubmit.disabled = true;
+      } else {
+        usernameStatus.textContent = 'Available!';
+        usernameStatus.style.color = 'green';
+        registerSubmit.disabled = false;
+      }
+    }, 300);
+  });
 
   registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -140,13 +161,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (error) { registerMsg.textContent = error.message; }
     else {
       registerMsg.textContent = 'Account created! You can now login.';
-      setTimeout(async () => { await supabase.auth.signInWithPassword({ email, password }); checkSession(); }, 1000);
+      setTimeout(async () => {
+        await supabase.auth.signInWithPassword({ email, password });
+        checkSession();
+      }, 1000);
     }
   });
 
   logoutBtn.addEventListener('click', async () => {
-    await supabase.auth.signOut(); currentUser = null; currentProfile = null;
-    appContainer.style.display = 'none'; authContainer.style.display = 'flex';
+    await supabase.auth.signOut();
+    currentUser = null;
+    currentProfile = null;
+    appContainer.style.display = 'none';
+    authContainer.style.display = 'flex';
   });
 
   document.querySelectorAll('.sidebar-link[data-section]').forEach(link => {
@@ -166,7 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   menuToggle.addEventListener('click', () => sidebar.classList.toggle('show'));
   userBtn.addEventListener('click', () => userDropdown.classList.toggle('show'));
-  window.addEventListener('click', (e) => { if (!e.target.closest('.user-menu')) userDropdown.classList.remove('show'); });
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-menu')) userDropdown.classList.remove('show');
+  });
 
   async function loadInbox() {
     if (!currentUser) return;
@@ -175,25 +204,50 @@ document.addEventListener('DOMContentLoaded', () => {
       .eq('to_user', currentUser.id)
       .order('created_at', { ascending: false });
     const container = document.getElementById('inbox-list');
-    if (error) { container.innerHTML = `<p>Error loading messages: ${error.message}</p>`; return; }
-    if (messages.length === 0) { container.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--gray-600);">No messages yet.</p>'; return; }
-    container.innerHTML = '';
-    messages.forEach(msg => {
-      const div = document.createElement('div');
-      div.className = `message-item ${msg.read ? '' : 'unread'}`;
-      div.innerHTML = `
-        <span class="sender">${msg.from_user ? (msg.from_profile?.mee_address || 'Unknown') : 'System'}</span>
-        <span class="subject">${msg.subject}</span>
-        <span class="preview">${msg.body.substring(0, 60)}</span>
-        <span class="date">${new Date(msg.created_at).toLocaleDateString()}</span>
-      `;
-      div.addEventListener('click', () => {
-        if (!msg.read) supabase.from('messages').update({ read: true }).eq('id', msg.id).then();
-        viewMessage(msg);
-      });
-      container.appendChild(div);
-    });
+    if (error) {
+      container.innerHTML = `<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error loading messages: ${error.message}</p></div>`;
+      return;
+    }
+    allMessages = messages || [];
+    updateInboxDisplay();
   }
+
+  function updateInboxDisplay() {
+    const container = document.getElementById('inbox-list');
+    const searchTerm = searchInput.value.toLowerCase();
+    const filtered = allMessages.filter(msg => {
+      return msg.subject.toLowerCase().includes(searchTerm) ||
+             (msg.from_profile?.mee_address || '').toLowerCase().includes(searchTerm) ||
+             msg.body.toLowerCase().includes(searchTerm);
+    });
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-state"><i class="ri-inbox-line"></i><p>No messages found</p></div>`;
+    } else {
+      container.innerHTML = '';
+      filtered.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = `message-item ${msg.read ? '' : 'unread'}`;
+        div.innerHTML = `
+          <span class="sender">${msg.from_user ? (msg.from_profile?.mee_address || 'Unknown') : 'System'}</span>
+          <span class="subject">${msg.subject}</span>
+          <span class="snippet">${msg.body.substring(0, 60)}</span>
+          <span class="date">${new Date(msg.created_at).toLocaleDateString()}</span>
+        `;
+        div.addEventListener('click', () => {
+          if (!msg.read) supabase.from('messages').update({ read: true }).eq('id', msg.id).then();
+          viewMessage(msg);
+        });
+        container.appendChild(div);
+      });
+    }
+    // Update unread count
+    const unreadCount = allMessages.filter(m => !m.read).length;
+    inboxCountSpan.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+    inboxCountSpan.textContent = unreadCount;
+  }
+
+  searchInput.addEventListener('input', updateInboxDisplay);
+  refreshBtn.addEventListener('click', loadInbox);
 
   async function loadSent() {
     if (!currentUser) return;
@@ -202,21 +256,27 @@ document.addEventListener('DOMContentLoaded', () => {
       .eq('from_user', currentUser.id)
       .order('created_at', { ascending: false });
     const container = document.getElementById('sent-list');
-    if (error) { container.innerHTML = `<p>Error: ${error.message}</p>`; return; }
-    if (messages.length === 0) { container.innerHTML = '<p style="text-align:center; padding: 2rem;">No sent messages.</p>'; return; }
-    container.innerHTML = '';
-    messages.forEach(msg => {
-      const div = document.createElement('div');
-      div.className = 'message-item';
-      div.innerHTML = `
-        <span class="sender">To: ${msg.to_profile?.mee_address || 'Unknown'}</span>
-        <span class="subject">${msg.subject}</span>
-        <span class="preview">${msg.body.substring(0, 60)}</span>
-        <span class="date">${new Date(msg.created_at).toLocaleDateString()}</span>
-      `;
-      div.addEventListener('click', () => viewMessage(msg));
-      container.appendChild(div);
-    });
+    if (error) {
+      container.innerHTML = `<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error: ${error.message}</p></div>`;
+      return;
+    }
+    if (messages.length === 0) {
+      container.innerHTML = `<div class="empty-state"><i class="ri-send-plane-line"></i><p>No sent messages</p></div>`;
+    } else {
+      container.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'message-item';
+        div.innerHTML = `
+          <span class="sender">To: ${msg.to_profile?.mee_address || 'Unknown'}</span>
+          <span class="subject">${msg.subject}</span>
+          <span class="snippet">${msg.body.substring(0, 60)}</span>
+          <span class="date">${new Date(msg.created_at).toLocaleDateString()}</span>
+        `;
+        div.addEventListener('click', () => viewMessage(msg));
+        container.appendChild(div);
+      });
+    }
   }
 
   function viewMessage(msg) {
@@ -224,15 +284,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     messageViewSection.classList.add('active');
     messageDetail.innerHTML = `
-      <div style="border-bottom: 1px solid var(--gray-200); padding-bottom: 1rem; margin-bottom: 1.5rem;">
-        <h2 style="font-size: 1.5rem;">${msg.subject}</h2>
-        <p style="color: var(--gray-600); margin-top: 0.5rem;">
+      <div style="border-bottom:1px solid var(--gray-200); padding-bottom:1rem; margin-bottom:1.5rem">
+        <h2 style="font-size:1.5rem">${msg.subject}</h2>
+        <p style="color:var(--gray-600); margin-top:0.5rem">
           <strong>From:</strong> ${msg.from_user ? (msg.from_profile?.mee_address || 'Unknown') : 'System'}<br>
           <strong>To:</strong> ${msg.to_user ? (msg.to_profile?.mee_address || 'Unknown') : currentProfile?.mee_address}<br>
           <strong>Date:</strong> ${new Date(msg.created_at).toLocaleString()}
         </p>
       </div>
-      <div style="white-space: pre-wrap;">${msg.body}</div>
+      <div style="white-space:pre-wrap">${msg.body}</div>
     `;
   }
 
@@ -240,11 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     document.getElementById(`section-${previousSection}`).classList.add('active');
     messageViewSection.classList.remove('active');
+    if (previousSection === 'inbox') loadInbox();
+    if (previousSection === 'sent') loadSent();
   });
 
-  composeBtn.addEventListener('click', () => composeModal.classList.add('open'));
-  document.querySelectorAll('.modal-close').forEach(btn => { btn.addEventListener('click', () => composeModal.classList.remove('open')); });
-  window.addEventListener('click', (e) => { if (e.target === composeModal) composeModal.classList.remove('open'); });
+  [composeBtn, composeBtnMobile].forEach(btn => btn.addEventListener('click', () => toggleModal(composeModal, true)));
+  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => toggleModal(composeModal, false)));
+  window.addEventListener('click', (e) => { if (e.target === composeModal) toggleModal(composeModal, false); });
 
   composeForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -255,11 +317,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const { data: profiles, error } = await supabase.from('profiles').select('id').eq('mee_address', toAddress).maybeSingle();
     if (error || !profiles) { composeMsg.textContent = 'Recipient not found.'; return; }
     const { error: insertError } = await supabase.from('messages').insert({ from_user: currentUser.id, to_user: profiles.id, subject, body });
-    if (insertError) { composeMsg.textContent = 'Error sending message: ' + insertError.message; }
-    else {
-      composeMsg.textContent = 'Message sent successfully!';
+    if (insertError) {
+      composeMsg.textContent = 'Error sending message: ' + insertError.message;
+    } else {
+      composeMsg.textContent = 'Message sent!';
       composeForm.reset();
-      setTimeout(() => { composeModal.classList.remove('open'); loadSent(); }, 1500);
+      setTimeout(() => {
+        toggleModal(composeModal, false);
+        showSnackbar('Message sent successfully');
+        loadSent();
+      }, 1000);
     }
   });
 });
