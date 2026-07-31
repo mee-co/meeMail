@@ -25,17 +25,12 @@
   </script>
 </head>
 <body>
-  <!-- Unified Header (always visible) -->
   <header class="top-bar">
     <div class="top-left">
       <button id="menu-toggle" class="icon-btn" style="display:none;"><i class="ri-menu-line"></i></button>
       <div class="app-logo">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" style="height: 36px;">
-          <defs>
-            <style>
-              .brand{font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px;}
-            </style>
-          </defs>
+          <defs><style>.brand{font-family:Inter,"SF Pro Display",Poppins,Arial,sans-serif;font-size:64px;font-weight:800;letter-spacing:-3px;}</style></defs>
           <text x="12" y="64" class="brand" fill="#FFFFFF">m</text>
           <text x="72" y="64" class="brand" fill="#2563EB">e</text>
           <text x="112" y="64" class="brand" fill="#2563EB">e</text>
@@ -46,11 +41,10 @@
       </div>
     </div>
     <div class="top-right" id="top-right-area">
-      <!-- Login button (only visible when logged out) -->
       <button id="header-signin-btn" class="btn-primary btn-small" style="display:none;">Sign in</button>
-      <!-- Avatar (visible when logged in) -->
       <div class="user-menu" id="user-menu" style="display:none;">
         <button id="user-btn" class="avatar-btn">
+          <img id="avatar-img" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;">
           <span class="avatar-initial" id="avatar-initial"></span>
         </button>
         <div id="user-dropdown" class="dropdown-menu">
@@ -70,9 +64,8 @@
     </div>
   </header>
 
-  <!-- Main Content Area -->
   <div id="main-content">
-    <!-- Public Landing Sections (visible when logged out) -->
+    <!-- Public sections -->
     <div id="public-sections" style="display: block;">
       <section class="hero">
         <div class="container hero-grid">
@@ -103,7 +96,7 @@
       <footer class="footer"><div class="container footer-content"><p class="footer-text">2026-Present meeMail. All Rights Reserved.</p><p class="footer-sub">Built for the mee ecosystem.</p></div></footer>
     </div>
 
-    <!-- App Container (visible when logged in) -->
+    <!-- App Container -->
     <div id="app-container" style="display: none;">
       <div class="app-body">
         <aside id="sidebar" class="sidebar">
@@ -114,6 +107,7 @@
             <a href="#" class="sidebar-link" data-section="drafts"><i class="ri-draft-line"></i> Drafts</a>
             <a href="#" class="sidebar-link" data-section="spam"><i class="ri-spam-line"></i> Spam</a>
             <a href="#" class="sidebar-link" data-section="trash"><i class="ri-delete-bin-line"></i> Trash</a>
+            <a href="#" class="sidebar-link" data-section="manage-account" style="margin-top: auto;"><i class="ri-settings-3-line"></i> Manage Account</a>
           </nav>
         </aside>
         <main class="main-content">
@@ -125,6 +119,29 @@
           <section id="section-drafts" class="content-section"><h2 class="section-heading">Drafts</h2><div class="empty-state"><i class="ri-draft-line"></i><p>No drafts saved</p></div></section>
           <section id="section-spam" class="content-section"><h2 class="section-heading">Spam</h2><div class="empty-state"><i class="ri-spam-line"></i><p>No spam messages</p></div></section>
           <section id="section-trash" class="content-section"><h2 class="section-heading">Trash</h2><div class="empty-state"><i class="ri-delete-bin-line"></i><p>Trash is empty</p></div></section>
+          <section id="section-manage-account" class="content-section">
+            <h2 class="section-heading">Manage your meeAccount</h2>
+            <div class="manage-account-card">
+              <div class="avatar-upload">
+                <div class="avatar-preview">
+                  <img id="manage-avatar-img" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                  <span id="manage-avatar-initial" class="avatar-initial-large"></span>
+                </div>
+                <input type="file" id="avatar-file-input" accept="image/*">
+                <label for="avatar-file-input" class="btn-outline btn-small">Choose Photo</label>
+                <p class="hint">JPG or PNG, max 2 MB</p>
+              </div>
+              <div class="account-details">
+                <div class="form-group">
+                  <label>mee Address</label>
+                  <input type="text" id="manage-address" disabled>
+                </div>
+                <!-- Future: change password, etc. -->
+                <button id="save-avatar-btn" class="btn-primary">Save Changes</button>
+                <p id="manage-message" class="modal-message"></p>
+              </div>
+            </div>
+          </section>
           <section id="section-message-view" class="content-section">
             <button id="back-btn" class="btn-outline btn-small"><i class="ri-arrow-left-line"></i> Back</button>
             <div id="message-detail"></div>
@@ -134,7 +151,7 @@
     </div>
   </div>
 
-  <!-- Modals (Login / Register / Compose) -->
+  <!-- Modals -->
   <div id="auth-modal" class="modal">
     <div class="modal-content auth-modal-content">
       <span class="modal-close">&times;</span>
