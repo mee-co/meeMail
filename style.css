@@ -238,6 +238,27 @@ body {
 .check-status { font-size: 0.9rem; margin-top: 0.3rem; }
 .modal-message { margin-top: 1rem; font-size: 0.95rem; text-align: center; }
 
+/* Password field with toggle */
+.password-field {
+  position: relative;
+}
+.password-field input {
+  padding-right: 2.5rem; /* space for icon */
+}
+.password-toggle {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--gray-600);
+  cursor: pointer;
+  user-select: none;
+}
+.password-toggle:hover {
+  color: var(--blue);
+}
+
 /* Popup */
 .popup {
   display: none;

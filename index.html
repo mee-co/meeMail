@@ -12,13 +12,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <!-- ==================== PUBLIC LANDING ==================== -->
+  <!-- PUBLIC LANDING -->
   <div id="public-site">
-    <!-- Header -->
     <header class="header">
       <div class="container nav-container">
         <a href="#" class="logo" aria-label="meeMail home">
-          <!-- SVG logo with embedded font styles -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg">
             <defs>
               <style>
@@ -51,7 +49,6 @@
       </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
       <div class="container hero-grid">
         <div class="hero-text">
@@ -89,7 +86,6 @@
       </div>
     </section>
 
-    <!-- About Section -->
     <section class="about section" id="about">
       <div class="container">
         <h2 class="section-title">What is meeMail?</h2>
@@ -99,7 +95,6 @@
       </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features section" id="features">
       <div class="container">
         <h2 class="section-title">Why meeMail?</h2>
@@ -128,7 +123,6 @@
       </div>
     </section>
 
-    <!-- Accounts Section -->
     <section class="accounts section" id="accounts">
       <div class="container">
         <h2 class="section-title">Your meeMail Account</h2>
@@ -149,7 +143,6 @@
       </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="container footer-content">
         <p class="footer-text">2026-Present meeMail. All Rights Reserved.</p>
@@ -158,7 +151,7 @@
     </footer>
   </div>
 
-  <!-- ==================== APP DASHBOARD (hidden until login) ==================== -->
+  <!-- APP DASHBOARD (hidden until login) -->
   <div class="app-container" id="app-container" style="display: none;">
     <div class="app-placeholder">
       <h2>Welcome back, meeian!</h2>
@@ -167,8 +160,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODALS ==================== -->
-  <!-- Login Modal -->
+  <!-- LOGIN MODAL -->
   <div id="login-modal" class="modal">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
@@ -179,9 +171,10 @@
           <input type="text" id="login-username" placeholder="yourname" required>
           <div class="form-hint">@mee.com</div>
         </div>
-        <div class="form-group">
+        <div class="form-group password-field">
           <label for="login-password">Password</label>
           <input type="password" id="login-password" placeholder="••••••••" required>
+          <i class="ri-eye-line password-toggle"></i>
         </div>
         <button type="submit" class="btn-primary btn-full">Sign In</button>
         <p id="login-message" class="modal-message"></p>
@@ -189,7 +182,7 @@
     </div>
   </div>
 
-  <!-- Register Modal -->
+  <!-- REGISTER MODAL -->
   <div id="register-modal" class="modal">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
@@ -201,21 +194,23 @@
           <div class="form-hint">Only lowercase letters, digits, dots (.) and hyphens (-)</div>
           <p id="username-status" class="check-status"></p>
         </div>
-        <div class="form-group">
+        <div class="form-group password-field">
           <label for="reg-password">Password</label>
-          <input type="password" id="reg-password" placeholder="At least 8 characters" required>
+          <input type="password" id="reg-password" placeholder="At least 6 characters" required>
+          <i class="ri-eye-line password-toggle"></i>
         </div>
-        <div class="form-group">
+        <div class="form-group password-field">
           <label for="reg-confirm">Confirm Password</label>
           <input type="password" id="reg-confirm" placeholder="Re-enter password" required>
+          <i class="ri-eye-line password-toggle"></i>
         </div>
-        <button type="submit" class="btn-primary btn-full" id="register-submit-btn">Create Address</button>
+        <button type="submit" class="btn-primary btn-full" id="register-submit-btn" disabled>Create Address</button>
         <p id="register-message" class="modal-message"></p>
       </form>
     </div>
   </div>
 
-  <!-- Popup notification -->
+  <!-- POPUP -->
   <div id="popup" class="popup">
     <p id="popup-message"></p>
     <button id="popup-close" class="btn-primary btn-small">OK</button>
