@@ -1,0 +1,15 @@
+{
+  "name": "meeMail",
+  "short_name": "meeMail",
+  "start_url": "/Official/meeMail/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024' fill='none'><rect width='1024' height='1024' rx='220' fill='%232563EB'/><rect x='192' y='280' width='640' height='460' rx='64' fill='white'/><path d='M224 328L512 548L800 328' stroke='%232563EB' stroke-width='34' stroke-linecap='round' stroke-linejoin='round'/><path d='M224 692L430 500' stroke='%232563EB' stroke-width='28' stroke-linecap='round'/><path d='M800 692L594 500' stroke='%232563EB' stroke-width='28' stroke-linecap='round'/><circle cx='460' cy='410' r='14' fill='%232563EB'/><circle cx='564' cy='410' r='14' fill='%232563EB'/></svg>",
+      "sizes": "1024x1024",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -4,168 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>meeMail — Secure messaging for meeians</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024' fill='none'><rect width='1024' height='1024' rx='220' fill='%232563EB'/><rect x='192' y='280' width='640' height='460' rx='64' fill='white'/><path d='M224 328L512 548L800 328' stroke='%232563EB' stroke-width='34' stroke-linecap='round' stroke-linejoin='round'/><path d='M224 692L430 500' stroke='%232563EB' stroke-width='28' stroke-linecap='round'/><path d='M800 692L594 500' stroke='%232563EB' stroke-width='28' stroke-linecap='round'/><circle cx='460' cy='410' r='14' fill='%232563EB'/><circle cx='564' cy='410' r='14' fill='%232563EB'/></svg>">
+  <link rel="manifest" href="/Official/meeMail/manifest.json">
+  <meta name="theme-color" content="#2563EB">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/Official/meeMail/sw.js');
+    }
+  </script>
 </head>
 <body>
-  <!-- PUBLIC LANDING -->
-  <div id="public-site">
-    <header class="header">
-      <div class="container nav-container">
-        <a href="#" class="logo" aria-label="meeMail home">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg">
-            <defs>
-              <style>
-                .brand{
-                  font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif;
-                  font-size: 64px;
-                  font-weight: 800;
-                  letter-spacing: -3px;
-                }
-              </style>
-            </defs>
-            <text x="12" y="64" class="brand" fill="#0F172A">m</text>
-            <text x="72" y="64" class="brand" fill="#2563EB">e</text>
-            <text x="112" y="64" class="brand" fill="#2563EB">e</text>
-            <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-            <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-            <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
-          </svg>
-        </a>
-        <nav class="main-nav" id="main-nav">
-          <a href="#about" class="nav-link">About</a>
-          <a href="#features" class="nav-link">Features</a>
-          <a href="#accounts" class="nav-link">Accounts</a>
-          <button class="btn-outline" id="login-btn">Login</button>
-          <button class="btn-primary" id="register-btn">Be a meeian</button>
-        </nav>
-        <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
-          <i class="ri-menu-line"></i>
-        </button>
+  <!-- ==================== অথেন্টিকেশন কন্টেইনার ==================== -->
+  <div id="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="logo-svg" style="width: 260px; height: auto; margin-bottom: 2rem;">
+          <defs>
+            <style>
+              .brand{font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px;}
+            </style>
+          </defs>
+          <text x="12" y="64" class="brand" fill="#0F172A">m</text>
+          <text x="72" y="64" class="brand" fill="#2563EB">e</text>
+          <text x="112" y="64" class="brand" fill="#2563EB">e</text>
+          <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+          <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+          <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
+        </svg>
       </div>
-    </header>
-
-    <section class="hero" id="home">
-      <div class="container hero-grid">
-        <div class="hero-text">
-          <h1 class="hero-title">Your private space<br>for communication</h1>
-          <p class="hero-description">
-            meeMail gives every meeian a unique @mee.com address. No external email accounts, no tracking, just encrypted messages inside the mee ecosystem.
-          </p>
-          <div class="hero-actions">
-            <button class="btn-primary btn-large" id="hero-register-btn">Get your @mee.com address</button>
-            <button class="btn-outline btn-large" id="hero-login-btn">Sign In</button>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="visual-circle">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" class="big-logo">
-              <defs>
-                <style>
-                  .brand{
-                    font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif;
-                    font-size: 64px;
-                    font-weight: 800;
-                    letter-spacing: -3px;
-                  }
-                </style>
-              </defs>
-              <text x="12" y="64" class="brand" fill="#0F172A">m</text>
-              <text x="72" y="64" class="brand" fill="#2563EB">e</text>
-              <text x="112" y="64" class="brand" fill="#2563EB">e</text>
-              <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
-              <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
-              <text x="145" y="64" class="brand" fill="#0F172A">Mail</text>
-            </svg>
-          </div>
-        </div>
+      <div class="auth-tabs">
+        <button id="tab-login" class="tab active">Login</button>
+        <button id="tab-register" class="tab">Register</button>
       </div>
-    </section>
 
-    <section class="about section" id="about">
-      <div class="container">
-        <h2 class="section-title">What is meeMail?</h2>
-        <p class="section-text">
-          meeMail is the official messaging platform of the mee ecosystem. It gives every meeian a unique @mee.com address that works across all mee services — no external email accounts, no spam, just seamless, encrypted communication between verified members.
-        </p>
-      </div>
-    </section>
-
-    <section class="features section" id="features">
-      <div class="container">
-        <h2 class="section-title">Why meeMail?</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="ri-shield-check-line"></i></div>
-            <h3>End-to-End Encrypted</h3>
-            <p>Every message is secured. Only you and the recipient can read it.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="ri-fingerprint-line"></i></div>
-            <h3>One Identity</h3>
-            <p>Your @mee.com address is your passport to all mee products.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="ri-global-line"></i></div>
-            <h3>Zero External Dependencies</h3>
-            <p>No Gmail, Yahoo, or any third-party. meeMail runs entirely on its own network.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="ri-mail-send-line"></i></div>
-            <h3>Smart Inbox</h3>
-            <p>Clean, focused interface for your conversations. No ads, no distractions.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="accounts section" id="accounts">
-      <div class="container">
-        <h2 class="section-title">Your meeMail Account</h2>
-        <div class="accounts-grid">
-          <div class="account-card">
-            <div class="account-icon"><i class="ri-user-add-line"></i></div>
-            <h3>Create New Address</h3>
-            <p>Choose your unique @mee.com username. Only lowercase letters, digits, dots, and hyphens allowed.</p>
-            <button class="btn-outline" id="create-account-btn">Create New Address</button>
-          </div>
-          <div class="account-card">
-            <div class="account-icon"><i class="ri-login-circle-line"></i></div>
-            <h3>Already have one?</h3>
-            <p>Sign in to your inbox, manage settings, or verify your address.</p>
-            <button class="btn-outline" id="sign-in-accounts-btn">Sign In</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container footer-content">
-        <p class="footer-text">2026-Present meeMail. All Rights Reserved.</p>
-        <p class="footer-sub">Built for the mee ecosystem.</p>
-      </div>
-    </footer>
-  </div>
-
-  <!-- APP DASHBOARD (hidden until login) -->
-  <div class="app-container" id="app-container" style="display: none;">
-    <div class="app-placeholder">
-      <h2>Welcome back, meeian!</h2>
-      <p>Your inbox and features will appear here.</p>
-      <button id="logout-btn" class="btn-outline">Logout</button>
-    </div>
-  </div>
-
-  <!-- LOGIN MODAL -->
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2 class="modal-title">Sign In</h2>
-      <form id="login-form">
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form active">
         <div class="form-group">
           <label for="login-username">mee Address</label>
           <input type="text" id="login-username" placeholder="yourname" required>
@@ -179,15 +58,9 @@
         <button type="submit" class="btn-primary btn-full">Sign In</button>
         <p id="login-message" class="modal-message"></p>
       </form>
-    </div>
-  </div>
 
-  <!-- REGISTER MODAL -->
-  <div id="register-modal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2 class="modal-title">Be a meeian</h2>
-      <form id="register-form">
+      <!-- Register Form -->
+      <form id="register-form" class="auth-form">
         <div class="form-group">
           <label for="reg-username">Choose your mee Address</label>
           <input type="text" id="reg-username" placeholder="yourname" required>
@@ -210,7 +83,111 @@
     </div>
   </div>
 
-  <!-- POPUP -->
+  <!-- ==================== অ্যাপ কন্টেইনার (লগইনের পরে) ==================== -->
+  <div id="app-container" style="display: none;">
+    <!-- নেভিগেশন বার -->
+    <header class="app-header">
+      <div class="header-left">
+        <button id="menu-toggle" class="icon-btn"><i class="ri-menu-line"></i></button>
+        <div class="app-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none" style="height: 40px;">
+            <defs>
+              <style>
+                .brand{font-family: Inter, "SF Pro Display", Poppins, Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px;}
+              </style>
+            </defs>
+            <text x="12" y="64" class="brand" fill="#FFFFFF">m</text>
+            <text x="72" y="64" class="brand" fill="#2563EB">e</text>
+            <text x="112" y="64" class="brand" fill="#2563EB">e</text>
+            <circle cx="95" cy="20" r="3.5" fill="#2563EB"/>
+            <circle cx="135" cy="20" r="3.5" fill="#2563EB"/>
+            <text x="145" y="64" class="brand" fill="#FFFFFF">Mail</text>
+          </svg>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="compose-btn" class="btn-primary"><i class="ri-pencil-line"></i> Compose</button>
+        <div class="user-menu">
+          <button id="user-btn" class="icon-btn"><i class="ri-user-3-line"></i></button>
+          <div id="user-dropdown" class="dropdown-menu">
+            <span id="current-address"></span>
+            <button id="logout-btn">Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- সাইডবার -->
+    <aside id="sidebar" class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="#" class="sidebar-link active" data-section="inbox"><i class="ri-inbox-line"></i> Inbox</a></li>
+          <li><a href="#" class="sidebar-link" data-section="sent"><i class="ri-send-plane-line"></i> Sent</a></li>
+          <li><a href="#" class="sidebar-link" data-section="drafts"><i class="ri-draft-line"></i> Drafts</a></li>
+          <li><a href="#" class="sidebar-link" data-section="contacts"><i class="ri-contacts-book-line"></i> Contacts</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- মেইন কন্টেন্ট -->
+    <main class="main-content">
+      <!-- ইনবক্স -->
+      <section id="section-inbox" class="content-section active">
+        <h2 class="section-heading">Inbox</h2>
+        <div id="inbox-list" class="message-list"></div>
+      </section>
+
+      <!-- সেন্ট -->
+      <section id="section-sent" class="content-section">
+        <h2 class="section-heading">Sent</h2>
+        <div id="sent-list" class="message-list"></div>
+      </section>
+
+      <!-- ড্রাফটস -->
+      <section id="section-drafts" class="content-section">
+        <h2 class="section-heading">Drafts</h2>
+        <p class="section-text">No drafts yet.</p>
+      </section>
+
+      <!-- কনট্যাক্টস -->
+      <section id="section-contacts" class="content-section">
+        <h2 class="section-heading">Contacts</h2>
+        <p class="section-text">Your contacts will appear here.</p>
+      </section>
+
+      <!-- মেসেজ ভিউ -->
+      <section id="section-message-view" class="content-section">
+        <button id="back-btn" class="btn-outline"><i class="ri-arrow-left-line"></i> Back</button>
+        <div id="message-detail"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- কম্পোজ মোডাল -->
+  <div id="compose-modal" class="modal">
+    <div class="modal-content compose-modal-content">
+      <span class="modal-close">&times;</span>
+      <h2 class="modal-title">New Message</h2>
+      <form id="compose-form">
+        <div class="form-group">
+          <label for="compose-to">To</label>
+          <input type="text" id="compose-to" placeholder="username@mee.com" required>
+        </div>
+        <div class="form-group">
+          <label for="compose-subject">Subject</label>
+          <input type="text" id="compose-subject" placeholder="Subject" required>
+        </div>
+        <div class="form-group">
+          <label for="compose-body">Message</label>
+          <textarea id="compose-body" rows="10" placeholder="Write your message..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary btn-full">Send</button>
+        <p id="compose-message" class="modal-message"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- পপআপ -->
   <div id="popup" class="popup">
     <p id="popup-message"></p>
     <button id="popup-close" class="btn-primary btn-small">OK</button>
