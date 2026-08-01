@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtdW54cG54a25vdmN2Ynd5a3ZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0MjEzMTgsImV4cCI6MjEwMDk5NzMxOH0.rcVrkzJ-mm_m2xnf1jAQEcgfX1ZxWYv1wfgmPBYb0NY';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // DOM
+  // DOM refs
   const headerSigninBtn = document.getElementById('header-signin-btn');
   const userMenu = document.getElementById('user-menu');
   const userBtn = document.getElementById('user-btn');
@@ -31,26 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const manageAddress = document.getElementById('manage-address');
   const manageMessage = document.getElementById('manage-message');
   const snackbar = document.getElementById('snackbar');
-  const container = document.getElementById('container'); // slider container
+  const container = document.getElementById('container');
   const registerToggle = document.getElementById('register');
   const loginToggle = document.getElementById('login');
+  const refreshBtn = document.getElementById('refresh-btn');
+  const fabCompose = document.getElementById('fab-compose-btn');
 
   let currentUser = null;
   let currentProfile = null;
   let accounts = JSON.parse(localStorage.getItem('meeMailAccounts') || '[]');
 
-  // ---- Sliding toggle logic ----
-  registerToggle.addEventListener('click', () => {
-    container.classList.add("active");
-  });
-  loginToggle.addEventListener('click', () => {
-    container.classList.remove("active");
-  });
+  // ---- Sliding toggle ----
+  registerToggle.addEventListener('click', () => container.classList.add("active"));
+  loginToggle.addEventListener('click', () => container.classList.remove("active"));
 
   // ---- Helpers ----
   function showSnackbar(msg, type='info') {
     snackbar.textContent = msg;
-    snackbar.style.background = type==='error' ? '#dc2626' : 'var(--black)';
+    snackbar.style.background = type === 'error' ? '#dc2626' : 'var(--black)';
     snackbar.classList.add('show');
     setTimeout(() => snackbar.classList.remove('show'), 3000);
   }
@@ -89,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       loadInbox();
       renderOtherAccounts();
-      if (window.deferredPrompt) installBtn.style.display = 'flex'; else installBtn.style.display = 'none';
+      if (window.deferredPrompt) installBtn.style.display = 'flex';
+      else installBtn.style.display = 'none';
     } else {
       currentUser = null; currentProfile = null;
       publicSections.style.display = 'block';
@@ -190,14 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Header signin / hero button
+  // Modal open handlers
   headerSigninBtn.addEventListener('click', () => {
     toggleModal(authModal, true);
-    container.classList.remove('active'); // show sign-in panel
+    container.classList.remove('active');
   });
   document.getElementById('hero-get-started-btn').addEventListener('click', () => {
     toggleModal(authModal, true);
-    container.classList.add('active'); // show sign-up panel
+    container.classList.add('active');
   });
   userBtn.addEventListener('click', () => userDropdown.classList.toggle('show'));
   window.addEventListener('click', (e) => { if (!e.target.closest('.user-menu')) userDropdown.classList.remove('show'); });
@@ -212,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addAccountBtn.addEventListener('click', () => {
     userDropdown.classList.remove('show');
     toggleModal(authModal, true);
-    container.classList.remove('active'); // show login to add account
+    container.classList.remove('active');
   });
   installBtn.addEventListener('click', () => {
     if (window.deferredPrompt) {
@@ -226,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshUI();
   });
 
-  // Password toggle (for both modals)
+  // Password toggle
   document.querySelectorAll('.password-toggle').forEach(icon => {
     icon.addEventListener('click', () => {
       const input = icon.previousElementSibling;
@@ -237,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Login form
+  // Login
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('login-username').value.trim();
@@ -252,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Register form
+  // Register
   const regName = document.getElementById('reg-name');
   const regUsername = document.getElementById('reg-username');
   const usernameStatus = document.getElementById('username-status');
@@ -294,14 +293,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close modals on X or outside click
-  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => {
-    close.closest('.modal').classList.remove('open');
-  }));
+  // Close modals
+  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => close.closest('.modal').classList.remove('open')));
   window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) e.target.classList.remove('open'); });
 
-  // Compose modal (FAB)
-  document.getElementById('fab-compose-btn').addEventListener('click', () => toggleModal(composeModal, true));
+  // Compose (FAB)
+  fabCompose.addEventListener('click', () => toggleModal(composeModal, true));
   document.getElementById('compose-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const toAddress = document.getElementById('compose-to').value.trim();
@@ -378,6 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('section-inbox').classList.add('active');
     document.querySelector('.sidebar-link[data-section="inbox"]').classList.add('active');
   });
+
+  refreshBtn.addEventListener('click', loadInbox);
 
   // Initial
   refreshUI();
