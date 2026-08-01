@@ -85,7 +85,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
 .footer { background: var(--black); color: white; text-align: center; padding: 2.5rem 0; }
 
 /* App body */
-.app-body { display: flex; min-height: calc(100vh - 64px); position: relative; }
+.app-body { display: flex; min-height: calc(100vh - 64px); }
 .sidebar { width: var(--sidebar-width); background: var(--gray-50); border-right: 1px solid var(--gray-200); padding: 1.5rem 0; display: flex; flex-direction: column; }
 .sidebar-nav { display: flex; flex-direction: column; flex: 1; }
 .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 2rem; color: var(--black); font-weight: 500; text-decoration: none; transition: background var(--transition); }
@@ -141,9 +141,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
 }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 300; }
 .modal.open { display: flex; }
-.modal-content {
-  background: white; padding: 2.5rem; border-radius: 16px; width: 90%; max-width: 460px; position: relative;
-}
+.modal-content { background: white; padding: 2.5rem; border-radius: 16px; width: 90%; max-width: 460px; position: relative; }
 .modal-close { position: absolute; top: 1rem; right: 1.2rem; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); z-index: 10; }
 .auth-modal-content .modal-close { top: 0.5rem; right: 0.5rem; }
 
@@ -159,7 +157,6 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
 .container p { font-size: 14px; line-height: 20px; letter-spacing: 0.3px; margin: 20px 0; }
 .container span { font-size: 12px; }
 .container a { color: var(--gray-600); font-size: 13px; text-decoration: none; margin: 15px 0 10px; }
-
 .container button {
   background-color: var(--blue);
   color: #fff;
@@ -172,11 +169,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
   margin-top: 10px;
   cursor: pointer;
 }
-.container button.hidden {
-  background-color: transparent;
-  border-color: #fff;
-}
-
+.container button.hidden { background-color: transparent; border-color: #fff; }
 .container form {
   background-color: #fff;
   display: flex;
@@ -186,7 +179,6 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
   padding: 0 40px;
   height: 100%;
 }
-
 .container input {
   background-color: #eee;
   border: none;
@@ -204,70 +196,33 @@ body { font-family: var(--body-font); background: var(--white); color: var(--bla
   height: 100%;
   transition: all 0.6s ease-in-out;
 }
-
 .sign-in { left: 0; width: 50%; z-index: 2; }
 .container.active .sign-in { transform: translateX(100%); }
-
 .sign-up { left: 0; width: 50%; opacity: 0; z-index: 1; }
-.container.active .sign-up {
-  transform: translateX(100%);
-  opacity: 1;
-  z-index: 5;
-  animation: move 0.6s;
-}
-
+.container.active .sign-up { transform: translateX(100%); opacity: 1; z-index: 5; animation: move 0.6s; }
 @keyframes move {
   0%, 49.99% { opacity: 0; z-index: 1; }
   50%, 100% { opacity: 1; z-index: 5; }
 }
 
 .toggle-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  transition: all 0.6s ease-in-out;
-  border-radius: 150px 0 0 100px;
-  z-index: 1000;
+  position: absolute; top: 0; left: 50%; width: 50%; height: 100%; overflow: hidden;
+  transition: all 0.6s ease-in-out; border-radius: 150px 0 0 100px; z-index: 1000;
 }
-.container.active .toggle-container {
-  transform: translateX(-100%);
-  border-radius: 0 150px 100px 0;
-}
-
+.container.active .toggle-container { transform: translateX(-100%); border-radius: 0 150px 100px 0; }
 .toggle {
   background: linear-gradient(to right, var(--blue), var(--blue-dark));
-  height: 100%;
-  color: #fff;
-  position: relative;
-  left: -100%;
-  height: 100%;
-  width: 200%;
-  transform: translateX(0);
-  transition: all 0.6s ease-in-out;
+  height: 100%; color: #fff; position: relative; left: -100%; width: 200%;
+  transform: translateX(0); transition: all 0.6s ease-in-out;
 }
 .container.active .toggle { transform: translateX(50%); }
-
 .toggle-panel {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0 30px;
-  text-align: center;
-  top: 0;
-  transform: translateX(0);
-  transition: all 0.6s ease-in-out;
+  position: absolute; width: 50%; height: 100%; display: flex; align-items: center;
+  justify-content: center; flex-direction: column; padding: 0 30px; text-align: center;
+  top: 0; transform: translateX(0); transition: all 0.6s ease-in-out;
 }
-
 .toggle-left { transform: translateX(-200%); }
 .container.active .toggle-left { transform: translateX(0); }
-
 .toggle-right { right: 0; transform: translateX(0); }
 .container.active .toggle-right { transform: translateX(200%); }
 

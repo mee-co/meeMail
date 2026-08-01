@@ -130,10 +130,7 @@
                 <p class="hint">JPG or PNG, max 2 MB</p>
               </div>
               <div class="account-details">
-                <div class="form-group">
-                  <label>mee Address</label>
-                  <input type="text" id="manage-address" disabled>
-                </div>
+                <div class="form-group"><label>mee Address</label><input type="text" id="manage-address" disabled></div>
                 <button id="save-avatar-btn" class="btn-primary">Save Changes</button>
                 <p id="manage-message" class="modal-message"></p>
               </div>
@@ -154,53 +151,31 @@
     <div class="modal-content auth-modal-content">
       <span class="modal-close">&times;</span>
       <div class="container" id="container">
-        <!-- Sign Up -->
         <div class="form-container sign-up">
           <form id="register-form">
             <h1>Be a meeian</h1>
             <input type="text" id="reg-name" placeholder="What's your name?" autocomplete="name">
             <input type="text" id="reg-username" placeholder="Choose username" autocomplete="username">
             <div id="username-status" class="check-status"></div>
-            <div class="password-field">
-              <input type="password" id="reg-password" placeholder="Set a strong password" autocomplete="new-password">
-              <i class="ri-eye-off-line password-toggle"></i>
-            </div>
-            <div class="password-field">
-              <input type="password" id="reg-confirm" placeholder="Confirm password" autocomplete="new-password">
-              <i class="ri-eye-off-line password-toggle"></i>
-            </div>
+            <div class="password-field"><input type="password" id="reg-password" placeholder="Set a strong password" autocomplete="new-password"><i class="ri-eye-off-line password-toggle"></i></div>
+            <div class="password-field"><input type="password" id="reg-confirm" placeholder="Confirm password" autocomplete="new-password"><i class="ri-eye-off-line password-toggle"></i></div>
             <button type="submit" id="register-submit-btn" disabled>Add me</button>
             <p id="register-message" class="modal-message"></p>
           </form>
         </div>
-
-        <!-- Sign In -->
         <div class="form-container sign-in">
           <form id="login-form">
             <h1>ComeBack!</h1>
             <input type="text" id="login-username" placeholder="Enter your meeAddress" autocomplete="username">
-            <div class="password-field">
-              <input type="password" id="login-password" placeholder="Enter your meePassword" autocomplete="current-password">
-              <i class="ri-eye-off-line password-toggle"></i>
-            </div>
+            <div class="password-field"><input type="password" id="login-password" placeholder="Enter your meePassword" autocomplete="current-password"><i class="ri-eye-off-line password-toggle"></i></div>
             <button type="submit">Enter me</button>
             <p id="login-message" class="modal-message"></p>
           </form>
         </div>
-
-        <!-- Toggle Panels -->
         <div class="toggle-container">
           <div class="toggle">
-            <div class="toggle-panel toggle-left">
-              <h1>meeians Back!</h1>
-              <p>Enter your meeDetails to use all of mee services again!</p>
-              <button class="hidden" id="login">Enter me</button>
-            </div>
-            <div class="toggle-panel toggle-right">
-              <h1>Hello, meeVisitors</h1>
-              <p>Register as a meeian to use all of mee services</p>
-              <button class="hidden" id="register">Add me</button>
-            </div>
+            <div class="toggle-panel toggle-left"><h1>meeians Back!</h1><p>Enter your meeDetails to use all of mee services again!</p><button class="hidden" id="login">Enter me</button></div>
+            <div class="toggle-panel toggle-right"><h1>Hello, meeVisitors</h1><p>Register as a meeian to use all of mee services</p><button class="hidden" id="register">Add me</button></div>
           </div>
         </div>
       </div>

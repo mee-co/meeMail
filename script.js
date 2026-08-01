@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtdW54cG54a25vdmN2Ynd5a3ZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0MjEzMTgsImV4cCI6MjEwMDk5NzMxOH0.rcVrkzJ-mm_m2xnf1jAQEcgfX1ZxWYv1wfgmPBYb0NY';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // DOM refs
+  // DOM
   const headerSigninBtn = document.getElementById('header-signin-btn');
   const userMenu = document.getElementById('user-menu');
   const userBtn = document.getElementById('user-btn');
@@ -34,21 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('container');
   const registerToggle = document.getElementById('register');
   const loginToggle = document.getElementById('login');
-  const refreshBtn = document.getElementById('refresh-btn');
-  const fabCompose = document.getElementById('fab-compose-btn');
 
   let currentUser = null;
   let currentProfile = null;
   let accounts = JSON.parse(localStorage.getItem('meeMailAccounts') || '[]');
 
-  // ---- Sliding toggle ----
+  // Sliding toggle
   registerToggle.addEventListener('click', () => container.classList.add("active"));
   loginToggle.addEventListener('click', () => container.classList.remove("active"));
 
-  // ---- Helpers ----
   function showSnackbar(msg, type='info') {
     snackbar.textContent = msg;
-    snackbar.style.background = type === 'error' ? '#dc2626' : 'var(--black)';
+    snackbar.style.background = type==='error' ? '#dc2626' : 'var(--black)';
     snackbar.classList.add('show');
     setTimeout(() => snackbar.classList.remove('show'), 3000);
   }
@@ -87,8 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       loadInbox();
       renderOtherAccounts();
-      if (window.deferredPrompt) installBtn.style.display = 'flex';
-      else installBtn.style.display = 'none';
+      if (window.deferredPrompt) installBtn.style.display = 'flex'; else installBtn.style.display = 'none';
     } else {
       currentUser = null; currentProfile = null;
       publicSections.style.display = 'block';
@@ -104,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
     currentProfile = data;
   }
 
-  // Multi-account
   function storeAccount(email, refreshToken) {
     accounts = accounts.filter(a => a.email !== email);
     accounts.push({ email, refreshToken, lastUsed: Date.now() });
@@ -140,9 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   supabase.auth.onAuthStateChange((event, session) => {
-    if (session && currentProfile) {
-      storeAccount(currentProfile.mee_address, session.refresh_token);
-    }
+    if (session && currentProfile) storeAccount(currentProfile.mee_address, session.refresh_token);
   });
 
   // Sidebar navigation
@@ -168,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAvatars(currentProfile);
   }
 
-  // Avatar upload
   saveAvatarBtn.addEventListener('click', async () => {
     const file = avatarFileInput.files[0];
     if (!file) { manageMessage.textContent = 'Please select an image.'; return; }
@@ -189,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Modal open handlers
   headerSigninBtn.addEventListener('click', () => {
     toggleModal(authModal, true);
     container.classList.remove('active');
@@ -225,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshUI();
   });
 
-  // Password toggle
   document.querySelectorAll('.password-toggle').forEach(icon => {
     icon.addEventListener('click', () => {
       const input = icon.previousElementSibling;
@@ -236,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Login
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('login-username').value.trim();
@@ -251,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Register
   const regName = document.getElementById('reg-name');
   const regUsername = document.getElementById('reg-username');
   const usernameStatus = document.getElementById('username-status');
@@ -293,12 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close modals
-  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => close.closest('.modal').classList.remove('open')));
+  document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => {
+    close.closest('.modal').classList.remove('open');
+  }));
   window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) e.target.classList.remove('open'); });
 
-  // Compose (FAB)
-  fabCompose.addEventListener('click', () => toggleModal(composeModal, true));
+  document.getElementById('fab-compose-btn').addEventListener('click', () => toggleModal(composeModal, true));
   document.getElementById('compose-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const toAddress = document.getElementById('compose-to').value.trim();
@@ -316,17 +304,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Inbox / Sent
   async function loadInbox() {
     if (!currentUser) return;
     const { data: messages, error } = await supabase.from('messages')
       .select('*, from_profile:from_user(mee_address)')
       .eq('to_user', currentUser.id)
       .order('created_at', { ascending: false });
-    const container = document.getElementById('inbox-list');
-    if (error) { container.innerHTML = `<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error</p></div>`; return; }
-    if (!messages.length) { container.innerHTML = `<div class="empty-state"><i class="ri-inbox-line"></i><p>No messages yet</p></div>`; return; }
-    container.innerHTML = messages.map(msg => `
+    const inboxList = document.getElementById('inbox-list');
+    if (error) { inboxList.innerHTML = `<div class="empty-state"><i class="ri-error-warning-line"></i><p>Error</p></div>`; return; }
+    if (!messages.length) { inboxList.innerHTML = `<div class="empty-state"><i class="ri-inbox-line"></i><p>No messages yet</p></div>`; return; }
+    inboxList.innerHTML = messages.map(msg => `
       <div class="message-item ${msg.read ? '' : 'unread'}" data-id="${msg.id}">
         <span class="sender">${msg.from_user ? (msg.from_profile?.mee_address || 'Unknown') : 'System'}</span>
         <span class="subject">${msg.subject}</span>
@@ -343,8 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .select('*, to_profile:to_user(mee_address)')
       .eq('from_user', currentUser.id)
       .order('created_at', { ascending: false });
-    const container = document.getElementById('sent-list');
-    container.innerHTML = messages.length ? messages.map(msg => `
+    const sentList = document.getElementById('sent-list');
+    sentList.innerHTML = messages.length ? messages.map(msg => `
       <div class="message-item" data-id="${msg.id}">
         <span class="sender">To: ${msg.to_profile?.mee_address || 'Unknown'}</span>
         <span class="subject">${msg.subject}</span>
@@ -376,8 +363,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.sidebar-link[data-section="inbox"]').classList.add('active');
   });
 
-  refreshBtn.addEventListener('click', loadInbox);
-
-  // Initial
   refreshUI();
 });
